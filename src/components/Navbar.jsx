@@ -20,7 +20,45 @@ const Left = styled.div`
   align-items: center;
 `;
 
+const Hamburger = styled.div`
+  width: 32px;
+  height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+
+  span {
+    width: 100%;
+    height: 3px;
+    background-color: teal;
+    transform-origin: left;
+    transition: all 2s ease;
+  }
+
+  &.active {
+    span {
+      &:first-child {
+        transform: rotate(45deg);
+      }
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      &:last-child {
+        transform: rotate(-45deg);
+      }
+    }
+  }
+`;
+
+const Line1 = styled.span``;
+
+const Line2 = styled.span``;
+
+const Line3 = styled.span``;
+
 const Language = styled.span`
+  margin-left: 20px;
   font-size: 14px;
   cursor: pointer;
 `;
@@ -59,11 +97,19 @@ const MenuItem = styled.div`
   margin-left: 10px;
 `;
 
-const Navbar = () => {
+const Navbar = ({ menuOpen, setMenuOpen }) => {
   return (
     <Container>
       <Wrapper>
         <Left>
+          <Hamburger
+            className={menuOpen && "active"}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <Line1></Line1>
+            <Line2></Line2>
+            <Line3></Line3>
+          </Hamburger>
           <Language>EN</Language>
           <SearchContainer>
             <Input />

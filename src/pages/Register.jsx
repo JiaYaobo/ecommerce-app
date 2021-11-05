@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useForm } from "../utils/hook";
+import axios from "axios";
 
 const Container = styled.div`
   width: 100vw;
@@ -53,24 +55,74 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+  const createMember = async () => {
+    try {
+      await axios.post("http://localhost:8800/api/auth/register", values);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  function registerMember() {
+    createMember();
+  }
+
+  const { onChange, onSubmit, values } = useForm(registerMember, {
+    username: "",
+    home_address: "",
+    mobile: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   return (
     <Container>
       <Wrapper>
         <Title>CREATE YOUR ACOUNT</Title>
-        <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
+        <Form onSubmit={onSubmit}>
+          <Input
+            name="username"
+            placeholder="username"
+            value={values.username}
+            onChange={onChange}
+          />
+          <Input
+            name="email"
+            placeholder="email"
+            onChange={onChange}
+            value={values.email}
+          />
+          <Input
+            name="home_address"
+            placeholder="city"
+            onChange={onChange}
+            value={values.home_address}
+          />
+          <Input
+            name="mobile"
+            placeholder="mobile"
+            onChange={onChange}
+            value={values.mobile}
+          />
+          <Input
+            name="password"
+            placeholder="password"
+            onChange={onChange}
+            value={values.password}
+          />
+          <Input
+            name="confirmPassword"
+            placeholder="confirm password"
+            onChange={onChange}
+            value={values.confirmPassword}
+          />
           <Agreement>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem
             sequi, delectus reiciendis cupiditate reprehenderit debitis ipsum,
             quasi voluptate hic aspernatur sint asperiores doloremque tempora
             impedit dolores excepturi quibusdam quidem exercitationem?
           </Agreement>
-          <Button>CREATE</Button>
+          <Button type="submit">CREATE</Button>
         </Form>
       </Wrapper>
     </Container>
