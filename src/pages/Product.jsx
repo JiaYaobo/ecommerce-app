@@ -1,7 +1,9 @@
 import { Add, Remove } from "@material-ui/icons";
+import { useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
+import Menu from "../components/Menu";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 
@@ -110,9 +112,11 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <Container>
-      <Navbar />
+      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+      <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <Announcement />
       <Wrapper>
         <ImgContainer>

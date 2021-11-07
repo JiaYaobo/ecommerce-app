@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { login } from "../redux/apiCalls";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "../utils/hook";
 
 const Container = styled.div`
   width: 100vw;
@@ -46,6 +49,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+
+  &:disabled {
+    color: green;
+    cursor: not-allowed;
+  }
 `;
 
 const Link = styled.a`
@@ -56,14 +64,35 @@ const Link = styled.a`
 `;
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const { isFetching, error } = useSelector((state) => state.user);
+  const { onChange, onSubmit, values } = useForm(LoginUser, {
+    email: "",
+    password: "",
+  });
+
+  function LoginUser() {
+    login(dispatch, values);
+  }
+
   return (
     <Container>
       <Wrapper>
         <Title>CREATE YOUR ACOUNT</Title>
-        <Form>
-          <Input placeholder="username" />
-          <Input placeholder="password" />
-          <Button>LOG in</Button>
+        <Form onSubmit={onSubmit}>
+          <Input
+            name="email"
+            placeholder="email"
+            onChange={onChange}
+            value={values.email}
+          />
+          <Input
+            name="password"
+            placeholder="password"
+            onChange={onChange}
+            value={values.password}
+          />
+          <Button disabled={isFetching}>LOG in</Button>
           <Link>FORGOT PASSWORD?</Link>
           <Link>SIGN UP</Link>
         </Form>
