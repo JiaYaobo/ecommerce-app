@@ -56,16 +56,20 @@ const Button = styled.button`
   }
 `;
 
-const Link = styled.a`
+const Link = styled.button`
   margin: 5px 0;
   font-size: 12px;
   text-decoration: underline;
+  border: none;
   cursor: pointer;
 `;
 
 const Login = () => {
   const dispatch = useDispatch();
   const { isFetching, error } = useSelector((state) => state.user);
+  if (error) {
+    console.log(error);
+  }
   const { onChange, onSubmit, values } = useForm(LoginUser, {
     email: "",
     password: "",
@@ -78,7 +82,7 @@ const Login = () => {
   return (
     <Container>
       <Wrapper>
-        <Title>CREATE YOUR ACOUNT</Title>
+        <Title>LOG IN YOUR ACCOUNT</Title>
         <Form onSubmit={onSubmit}>
           <Input
             name="email"

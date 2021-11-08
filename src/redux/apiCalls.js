@@ -1,5 +1,5 @@
 
-import { loginFailure, loginStart, loginSuccess } from "./userRedux";
+import { loginFailure, loginStart, loginSuccess, logoutSuccess } from "./userRedux";
 import { publicRequest } from "../requestMethods";
 
 export const login = async (dispatch, user) => {
@@ -11,3 +11,8 @@ export const login = async (dispatch, user) => {
     dispatch(loginFailure());
   }
 };
+
+export const logout = async (dispatch) => {
+  localStorage.removeItem("persist:root");
+  dispatch(logoutSuccess());
+}

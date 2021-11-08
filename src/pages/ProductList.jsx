@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
 import Products from "../components/Products";
 import { useState } from "react";
-import Menu from "../components/Menu";
 const Container = styled.div``;
 
 const Title = styled.h1`
@@ -35,12 +31,8 @@ const Select = styled.select`
 const Option = styled.option``;
 
 const ProductList = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <Container>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <Announcement />
       <Title>Dresses</Title>
       <FilterContainer>
@@ -77,8 +69,6 @@ const ProductList = () => {
         </Filter>
       </FilterContainer>
       <Products />
-      <Newsletter />
-      <Footer />
     </Container>
   );
 };

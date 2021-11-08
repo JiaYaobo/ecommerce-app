@@ -1,19 +1,22 @@
+import { Link } from "react-router-dom";
+import { logout } from "../redux/apiCalls";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const MenuContainer = styled.div`
   width: 300px;
   height: 100vh;
   background: linear-gradient(to right, #c2e59c, #64b3f4);
   position: fixed;
-  top: 0;
+  top: 90px;
   left: -300px;
   z-index: 99;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   transition: all 1s ease;
-
+  opacity: 0.95;
   &.active {
     left: 0;
   }
@@ -25,44 +28,83 @@ const MenuList = styled.ul`
   list-style: none;
   font-size: 30px;
   font-weight: 300;
-  color: white;
+  color: #6d6666;
   width: 60%;
 `;
 
 const MenuItemContainer = styled.li`
-  margin-bottom: 25px;
+  margin-top: 15px;
+`;
 
+const MenuItem = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MenuItemTitle = styled.h3`
+  font-size: 30px;
+  font-weight: 500;
+  cursor: pointer;
   &:hover {
     font-weight: 500;
   }
 `;
 
-const MenuItem = styled.a`
-  font-size: inherit;
-  color: inherit;
-  text-decoration: none;
+const MenuItemSubItem = styled.span`
+  font-size: 20px;
+  margin: 10px 0;
+  cursor: pointer;
+  &:hover {
+    font-weight: 500;
+  }
 `;
 
 const Menu = ({ menuOpen, setMenuOpen }) => {
-  const handleClick = (e) => {
+  const dispatch = useDispatch();
+
+  const handleClick = (e, callback) => {
     e.preventDefault();
     setMenuOpen(false);
+    callback && callback();
+  };
+
+  const Logout = () => {
+    logout(dispatch);
   };
 
   return (
     <MenuContainer className={menuOpen && "active"}>
       <MenuList>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
-          <MenuItem href="#">Home</MenuItem>
+          <MenuItem>
+            <MenuItemTitle>Home</MenuItemTitle>
+            <MenuItemSubItem>Featured Info</MenuItemSubItem>
+            <MenuItemSubItem>Featured Categories</MenuItemSubItem>
+            <MenuItemSubItem>Featured Products</MenuItemSubItem>
+          </MenuItem>
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
-          <MenuItem href="#">Department</MenuItem>
+          <MenuItem>
+            <Link
+              to="/products/all"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <MenuItemTitle>Departments</MenuItemTitle>
+            </Link>
+            <MenuItemSubItem>Shirts</MenuItemSubItem>
+            <MenuItemSubItem>Shorts</MenuItemSubItem>
+            <MenuItemSubItem>Shoes</MenuItemSubItem>
+          </MenuItem>
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
-          <MenuItem href="#">Your Account</MenuItem>
+          <MenuItem>
+            <MenuItemTitle>Your Account</MenuItemTitle>
+          </MenuItem>
         </MenuItemContainer>
-        <MenuItemContainer onClick={(e) => handleClick(e)}>
-          <MenuItem href="#">Log Out</MenuItem>
+        <MenuItemContainer onClick={(e) => handleClick(e, Logout)}>
+          <MenuItem>
+            <MenuItemTitle>Log out</MenuItemTitle>
+          </MenuItem>
         </MenuItemContainer>
       </MenuList>
     </MenuContainer>

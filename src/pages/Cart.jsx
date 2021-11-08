@@ -2,9 +2,6 @@ import { Add, Remove } from "@material-ui/icons";
 import { useState } from "react";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
-import Footer from "../components/Footer";
-import Menu from "../components/Menu";
-import Navbar from "../components/Navbar";
 
 const Container = styled.div`
   padding: 20px;
@@ -146,12 +143,8 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <Container>
-      <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
-      <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <Announcement />
       <Wrapper>
         <Title>YOUR CART</Title>
@@ -245,7 +238,6 @@ const Cart = () => {
           </Summary>
         </Bottom>
       </Wrapper>
-      <Footer />
     </Container>
   );
 };
