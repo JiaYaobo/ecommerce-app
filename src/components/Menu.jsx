@@ -46,6 +46,7 @@ const MenuItemTitle = styled.h3`
   font-weight: 500;
   cursor: pointer;
   &:hover {
+    border: 1px solid #6d6666;
     font-weight: 500;
   }
 `;
@@ -54,7 +55,11 @@ const MenuItemSubItem = styled.span`
   font-size: 20px;
   margin: 10px 0;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover {
+    border: 1px solid #6d6666;
     font-weight: 500;
   }
 `;

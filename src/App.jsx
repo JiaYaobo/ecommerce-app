@@ -16,6 +16,7 @@ import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
+import User from "./pages/User";
 
 function App() {
   const user = useSelector((state) => {
@@ -40,6 +41,7 @@ function App() {
             path="/product/1"
             element={user ? <Product /> : <Login />}
           />
+          <Route exact path="/me" element={user ? <User /> : <Login />} />
           <Route
             exact
             path="/register"
