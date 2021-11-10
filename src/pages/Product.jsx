@@ -108,7 +108,6 @@ const Button = styled.button`
 `;
 
 const Product = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <Container>
       <Announcement />
