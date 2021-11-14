@@ -5,12 +5,7 @@ import Navbar from "../components/Navbar";
 const Container = styled.div``;
 
 const Category = () => {
-  return (
-    <Container>
-      <Navbar />
-      <Footer />
-    </Container>
-  );
+  return <Container></Container>;
 };
 
 export default Category;

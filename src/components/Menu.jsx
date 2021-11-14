@@ -46,7 +46,6 @@ const MenuItemTitle = styled.h3`
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    border: 1px solid #6d6666;
     font-weight: 500;
   }
 `;
@@ -59,7 +58,6 @@ const MenuItemSubItem = styled.span`
   align-items: center;
   justify-content: center;
   &:hover {
-    border: 1px solid #6d6666;
     font-weight: 500;
   }
 `;
@@ -82,7 +80,9 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
       <MenuList>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
           <MenuItem>
-            <MenuItemTitle>Home</MenuItemTitle>
+            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
+              <MenuItemTitle>Home</MenuItemTitle>
+            </Link>
             <MenuItemSubItem>Featured Info</MenuItemSubItem>
             <MenuItemSubItem>Featured Categories</MenuItemSubItem>
             <MenuItemSubItem>Featured Products</MenuItemSubItem>
@@ -103,7 +103,9 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
           <MenuItem>
-            <MenuItemTitle>Your Account</MenuItemTitle>
+            <Link to="/me" style={{ textDecoration: "none", color: "inherit" }}>
+              <MenuItemTitle>Your Account</MenuItemTitle>
+            </Link>
           </MenuItem>
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e, Logout)}>

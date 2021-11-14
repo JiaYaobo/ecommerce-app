@@ -6,13 +6,14 @@ import Chart from "../components/Chart";
 import { userData } from "../dummyData";
 import FeaturedInfo from "../components/FeaturedInfo";
 import UserInfo from "../components/UserInfo";
+import OrderList from "../components/OrderList";
 
 const Container = styled.div`
   display: flex;
 `;
 
 const Profile = () => {
-  const [value, setValue] = useState("one");
+  const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -41,7 +42,7 @@ const Profile = () => {
           <Tab label="User Stats" {...allyProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          Item One
+          <OrderList />
         </TabPanel>
         <TabPanel value={value} index={3}>
           <FeaturedInfo />

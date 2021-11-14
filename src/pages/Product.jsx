@@ -110,7 +110,6 @@ const Button = styled.button`
 const Product = () => {
   return (
     <Container>
-      <Announcement />
       <Wrapper>
         <ImgContainer>
           <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />

@@ -249,3 +249,72 @@ export const userData = [
       price: "$120.00",
     },
   ];
+
+  export const OrderRows=[
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    },
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    },
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    },
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    },
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    },
+    {
+      order_id : 1,
+      order_status: 1,
+      goods_id: 1,
+      goods_num: 2,
+      goods_info: 'some info',
+      goods_ship_cost: 10,
+      order_total : 50,
+      order_time : '2019/2/18',
+      order_expect_time : 3
+    }
+  ]

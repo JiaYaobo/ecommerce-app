@@ -17,6 +17,8 @@ import Cart from "./pages/Cart";
 import ProductList from "./pages/ProductList";
 import Product from "./pages/Product";
 import Profile from "./pages/Profile";
+import Announcement from "./components/Announcement";
+import Ship from "./pages/Ship";
 
 function App() {
   const user = useSelector((state) => {
@@ -26,10 +28,11 @@ function App() {
   return (
     <>
       <Router>
-        {user && <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />}
-        {user && <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />}
+        <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <Menu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <Announcement />
         <Routes>
-          <Route exact path="/" element={user ? <Home /> : <Login />} />
+          <Route exact path="/" element={<Home />} />
           <Route exact path="/cart" element={user ? <Cart /> : <Login />} />
           <Route
             exact
@@ -42,6 +45,11 @@ function App() {
             element={user ? <Product /> : <Login />}
           />
           <Route exact path="/me" element={user ? <Profile /> : <Login />} />
+          <Route
+            exact
+            path="/order/1/ship"
+            element={user ? <Ship /> : <Login />}
+          />
           <Route
             exact
             path="/register"
