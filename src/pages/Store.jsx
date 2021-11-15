@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
 import Products from "../components/Products";
-import { useState } from "react";
+
 const Container = styled.div``;
 
-const Title = styled.h1`
+const StoreName = styled.h1`
   margin: 20px;
 `;
 
@@ -30,10 +29,10 @@ const Select = styled.select`
 
 const Option = styled.option``;
 
-const ProductList = () => {
+const Store = () => {
   return (
     <Container>
-      <Title>Dresses</Title>
+      <StoreName>A Shop</StoreName>
       <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
@@ -79,4 +78,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default Store;

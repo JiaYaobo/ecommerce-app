@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { StyledLink } from "./styled-components/StyledLink";
 
 const Container = styled.div`
   padding: 10px;
@@ -46,7 +47,29 @@ const Bottom = styled.div`
   justify-content: flex-end;
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  width: 80px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: ${(props) => {
+    if (props.buttonType === "confirm") {
+      return "green";
+    } else if (props.buttonType === "check") {
+      return "brown";
+    } else {
+      return "crimson";
+    }
+  }};
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
+`;
 
 const Order = () => {
   return (
@@ -64,7 +87,11 @@ const Order = () => {
         </Detail>
       </Middle>
       <Bottom>
-        <Button>button</Button>
+        <Button buttonType="confirm">CONFIRM</Button>
+        <StyledLink to="/order/1/ship">
+          <Button buttonType="check">CHECK</Button>
+        </StyledLink>
+        <Button buttonType="cancel">CANCEL</Button>
       </Bottom>
     </Container>
   );
