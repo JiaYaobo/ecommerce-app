@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { login } from "../redux/apiCalls";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../utils/hook";
+import { StyledLink } from "../components/styled-components/StyledLink";
 
 const Container = styled.div`
   width: 100vw;
@@ -71,8 +72,8 @@ const Login = () => {
     console.log(error);
   }
   const { onChange, onSubmit, values } = useForm(LoginUser, {
-    email: "",
-    password: "",
+    user_email: "",
+    user_password: "",
   });
 
   function LoginUser() {
@@ -85,16 +86,16 @@ const Login = () => {
         <Title>LOG IN YOUR ACCOUNT</Title>
         <Form onSubmit={onSubmit}>
           <Input
-            name="email"
+            name="user_email"
             placeholder="email"
             onChange={onChange}
-            value={values.email}
+            value={values.user_email}
           />
           <Input
-            name="password"
+            name="user_password"
             placeholder="password"
             onChange={onChange}
-            value={values.password}
+            value={values.user_password}
           />
           <Button disabled={isFetching}>LOG in</Button>
           <Link>FORGOT PASSWORD?</Link>

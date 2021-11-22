@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const orderSlice = createSlice({
-  name: "orderr",
+  name: "order",
   initialState: {
     inCartOrders: [],
     inTransOrders: [],
@@ -13,19 +13,19 @@ const orderSlice = createSlice({
     error: false,
   },
   reducers: {
-    loadInOrdersStart: (state) => {
+    loadOrdersStart: (state) => {
       state.isFetching = true;
     },
-    loadInOrdersSuccess: (state, action) => {
+    loadOrdersSuccess: (state, action) => {
       state.isFetching = false;
-      state.inCartOrders = action.payload.cartOrders;
-      state.inTransOrders = action.payload.transOrders;
-      state.inFinishedOrders = action.payload.finishedOrders;
-      state.inCartNum = length(inCartOrders);
-      state.inTransNum = length(inTransOrders);
-      state.inFinishedNum = length(inFinishedOrders);
+      state.inCartOrders = action.payload.inCart;
+      state.inTransOrders = action.payload.inTrans;
+      state.inFinishedOrders = action.payload.inFinished;
+      state.inCartNum = state.inCartOrders.length || 0;
+      state.inTransNum = state.inTransOrders.length || 0;
+      state.inFinishedNum = state.inFinishedOrders.length || 0;
     },
-    loadInOrdersFailure: (state) => {
+    loadOrdersFailure: (state) => {
       state.isFetching = false;
       state.error = true;
     },
@@ -39,7 +39,7 @@ const orderSlice = createSlice({
     },
     submitCartOrders: (state, action) => {
       state.inCartOrders = state.inCartOrders.filter(
-        (co) => co.orders_id == action.payload.id
+        (co) => co.orders_id === action.payload.id
       );
       state.inCartOrders -= 1;
       state.inTransOrders = state.inTransOrders.push(action.payload);
@@ -48,4 +48,6 @@ const orderSlice = createSlice({
   },
 });
 
+export const { loadOrdersStart, loadOrdersSuccess, loadOrdersFailure } =
+  orderSlice.actions;
 export default orderSlice.reducer;

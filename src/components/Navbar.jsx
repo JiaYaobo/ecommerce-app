@@ -1,8 +1,9 @@
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
-import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { StyledLink } from "./styled-components/StyledLink";
 
 const Container = styled.div`
   height: 60px;
@@ -99,6 +100,27 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = ({ menuOpen, setMenuOpen }) => {
+  const inCartOrders = useSelector((state) => state.order.inCartOrders);
+  const { currentUser } = useSelector((state) => state.user);
+
+  const RightElemnts = currentUser ? (
+    <>
+      <MenuItem>Hello, {currentUser.user_name} </MenuItem>
+      <MenuItem>
+        <StyledLink to="/cart" style={{ textDecoration: "none" }}>
+          <Badge badgeContent={inCartOrders.length} color="primary">
+            <ShoppingCartOutlined />
+          </Badge>
+        </StyledLink>
+      </MenuItem>
+    </>
+  ) : (
+    <>
+      <StyledLink to="/login">
+        <MenuItem>SIGN IN</MenuItem>
+      </StyledLink>
+    </>
+  );
   return (
     <Container>
       <Wrapper>
@@ -120,17 +142,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
         <Center>
           <Logo>LOGO.</Logo>
         </Center>
-        <Right>
-          <MenuItem>Register</MenuItem>
-          <MenuItem>Sign in</MenuItem>
-          <MenuItem>
-            <Link to="/cart" style={{ textDecoration: "none" }}>
-              <Badge badgeContent={4} color="primary">
-                <ShoppingCartOutlined />
-              </Badge>
-            </Link>
-          </MenuItem>
-        </Right>
+        <Right>{RightElemnts}</Right>
       </Wrapper>
     </Container>
   );
