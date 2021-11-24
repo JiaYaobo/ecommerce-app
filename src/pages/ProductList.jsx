@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
 import Products from "../components/Products";
-import { useState } from "react";
+
 const Container = styled.div``;
 
 const Title = styled.h1`

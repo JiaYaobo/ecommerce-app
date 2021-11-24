@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -79,27 +80,28 @@ const Save = styled.button`
 `;
 
 const UserInfo = () => {
+  const { currentUser } = useSelector((state) => state.user);
   return (
     <Container>
       <Wrapper>
         <Avatar src="https://pic1.zhimg.com/v2-44cf2c3fbd46260759691520e8c09dd4_r.jpg?source=1940ef5c" />
         <Name>
           {" "}
-          <b>Username : </b> Tom
+          <b>Username : </b> {currentUser?.user_name}
         </Name>
         <Address>
           <Province>
             {" "}
-            <b>Province : </b> Heilongjiang
+            <b>Province : </b> {currentUser?.user_province}
           </Province>
           <City>
             {" "}
-            <b>City : </b> Mudanjiang
+            <b>City : </b> {currentUser?.user_city}
           </City>
         </Address>
         <Mobile>
           {" "}
-          <b>Contact : </b> +85 188888888
+          <b>Contact : </b> {currentUser?.user_mobile}
         </Mobile>
         <Edit>EDIT</Edit>
         <Save>SAVE</Save>

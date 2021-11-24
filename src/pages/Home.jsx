@@ -2,7 +2,7 @@ import Categories from "../components/Categories";
 import Products from "../components/Products";
 import Slider from "../components/Slider";
 import styled from "styled-components";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadOrders } from "../redux/apiCalls";
 
@@ -13,7 +13,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  const { isFetching, error } = useSelector((state) => state.order);
+  const { error } = useSelector((state) => state.order);
   if (error) {
     console.log(error);
   }
@@ -24,7 +24,7 @@ const Home = () => {
 
   useEffect(() => {
     currentUser && loadUserOrders();
-  }, [currentUser]);
+  }, [currentUser, loadUserOrders]);
 
   return (
     <Container>

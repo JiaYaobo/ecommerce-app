@@ -99,7 +99,9 @@ const Login = () => {
           />
           <Button disabled={isFetching}>LOG in</Button>
           <Link>FORGOT PASSWORD?</Link>
-          <Link>SIGN UP</Link>
+          <StyledLink to="/register">
+            <Link>SIGN UP</Link>
+          </StyledLink>
         </Form>
       </Wrapper>
     </Container>

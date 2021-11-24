@@ -1,7 +1,9 @@
 import { Add, Remove } from "@material-ui/icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Announcement from "../components/Announcement";
+import CartOrder from "../components/CartOrder";
+import { publicRequest } from "../requestMethods";
 
 const Container = styled.div`
   padding: 20px;
@@ -48,67 +50,6 @@ const Info = styled.div`
   flex: 3;
 `;
 
-const Product = styled.div`
-  display: flex;
-`;
-const ProductDetail = styled.div`
-  flex: 2;
-  display: flex;
-`;
-
-const Image = styled.img`
-  width: 200px;
-`;
-
-const Details = styled.div`
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-`;
-const ProductName = styled.span``;
-
-const ProductId = styled.span``;
-
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
-
-const ProductSize = styled.span``;
-
-const PriceDetail = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-`;
-
-const ProductAmountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-const ProductAmount = styled.span`
-  font-size: 24px;
-  margin: 5px;
-`;
-
-const ProductPrice = styled.span`
-  font-size: 30px;
-  font-weight: 200;
-`;
-
-const Hr = styled.hr`
-  background-color: #eee;
-  border: none;
-  height: 1px;
-`;
-
 const Summary = styled.div`
   flex: 1;
   border: 0.5px solid lightgray;
@@ -143,6 +84,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+  const inCartOrders = useSelector((state) => state.order.inCartOrders);
   return (
     <Container>
       <Wrapper>
@@ -150,70 +92,16 @@ const Cart = () => {
         <Top>
           <TopButton>CONTINUE SHOPPING</TopButton>
           <TopTexts>
-            <TopText>Shopping Bag (1)</TopText>
+            <TopText>Shopping Bag ({inCartOrders.length})</TopText>
             <TopText>Your Wishlist</TopText>
           </TopTexts>
           <TopButton type="filled">CHECK UP NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://cdn.shopify.com/s/files/1/0101/4832/products/Angela_Natural_Tee.png?v=1606780388" />
-                <Details>
-                  <ProductName>
-                    {" "}
-                    <b>Product : </b> PRODUCT{" "}
-                  </ProductName>
-                  <ProductId>
-                    {" "}
-                    <b>ID : </b> 12321414{" "}
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    {" "}
-                    <b>Size : </b> XL{" "}
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://cdn.shopify.com/s/files/1/0101/4832/products/Angela_Natural_Tee.png?v=1606780388" />
-                <Details>
-                  <ProductName>
-                    {" "}
-                    <b>Product : </b> PRODUCT{" "}
-                  </ProductName>
-                  <ProductId>
-                    {" "}
-                    <b>ID : </b> 12321414{" "}
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    {" "}
-                    <b>Size : </b> XL{" "}
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {inCartOrders.map((item) => (
+              <CartOrder orderId={item.order_id} key={item.order_id} />
+            ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>

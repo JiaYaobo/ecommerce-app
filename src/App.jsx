@@ -43,7 +43,7 @@ function App() {
           />
           <Route
             exact
-            path="/product/1"
+            path="/product/:productId"
             element={user ? <Product /> : <Login />}
           />
           <Route exact path="/me" element={user ? <Profile /> : <Login />} />

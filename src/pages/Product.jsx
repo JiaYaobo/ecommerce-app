@@ -1,7 +1,9 @@
-import { Rating } from "@material-ui/lab";
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import { publicRequest } from "../requestMethods";
+import Comments from "../components/Comments";
 
 const Container = styled.div``;
 
@@ -109,96 +111,31 @@ const Button = styled.button`
 
 const Hr = styled.hr`
   color: grey;
-  padding: 5px 0;
-`;
-
-const CommentContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-`;
-
-const OverallReviews = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 20px;
-`;
-
-const OverallTitle = styled.span`
-  font-size: 24px;
-  font-weight: 500;
-`;
-
-const RatingDetail = styled.span`
-  font-size: 16px;
-  font-weight: 300;
-`;
-
-const RatingBar = styled.div`
-  display: flex;
-`;
-
-const Reviews = styled.div`
-  flex: 3;
-  display: flex;
-  flex-direction: column;
-`;
-
-const ReviewsTitle = styled.span`
-  font-size: 24px;
-  font-weight: 500;
   margin-bottom: 10px;
 `;
 
-const ReviewContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-content: flex-start;
-  justify-content: center;
-  margin: 10px 0;
-`;
-
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-`;
-
-const UserProfile = styled.img`
-  margin-right: 10px;
-`;
-
-const Username = styled.span``;
-
-const UserRating = styled.div``;
-
-const ReviewTime = styled.span`
-  color: grey;
-`;
-
-const ReviewContent = styled.div`
-  font-weight: 400;
-`;
-
 const Product = () => {
-  const [value, setValue] = useState(2);
+  const [product, setProduct] = useState({});
+  const params = useParams();
+  console.log(params.productId);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const res = await publicRequest.get(`/product/${params.productId}`);
+      setProduct(res.data);
+    };
+    fetchProduct();
+  }, []);
+  // https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png
   return (
     <Container>
       <Wrapper>
         <ImgContainer>
-          <Image src="https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png" />
+          <Image src={product?.goods_image} />
         </ImgContainer>
         <InfoContainer>
-          <Title>A Product</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic
-            corrupti, aliquid unde, earum illum necessitatibus officiis debitis
-            molestiae esse sed dolorem incidunt quaerat alias quod illo officia
-            itaque? Tempora, quis.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product?.goods_name}</Title>
+          <Desc>{product?.goods_info}</Desc>
+          <Price>$ {product?.goods_price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
@@ -228,100 +165,7 @@ const Product = () => {
         </InfoContainer>
       </Wrapper>
       <Hr />
-      <CommentContainer>
-        <OverallReviews>
-          <OverallTitle>Customer Reviews</OverallTitle>
-          <Rating name="read-only" value={value} />
-          <RatingDetail>5 out of 5</RatingDetail>
-          <RatingBar>
-            <Rating name="read-only" value={5} />
-            <RatingDetail>50%</RatingDetail>
-          </RatingBar>
-          <RatingBar>
-            <Rating name="read-only" value={4} />
-            <RatingDetail>10%</RatingDetail>
-          </RatingBar>
-          <RatingBar>
-            <Rating name="read-only" value={3} />
-            <RatingDetail>10%</RatingDetail>
-          </RatingBar>
-          <RatingBar>
-            <Rating name="read-only" value={2} />
-            <RatingDetail>20%</RatingDetail>
-          </RatingBar>
-          <RatingBar>
-            <Rating name="read-only" value={1} />
-            <RatingDetail>10%</RatingDetail>
-          </RatingBar>
-        </OverallReviews>
-        <Reviews>
-          <ReviewsTitle>Reviews from users</ReviewsTitle>
-          <ReviewContainer>
-            <UserInfo>
-              <UserProfile src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png" />
-              <Username>Leo</Username>
-            </UserInfo>
-            <UserRating>
-              <Rating name="read-only" value={1} />
-            </UserRating>
-            <ReviewTime>2019.2.18</ReviewTime>
-            <ReviewContent>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque
-              reprehenderit voluptatum voluptates delectus modi cum corporis
-              inventore sequi eaque officia cupiditate, ea quidem vitae
-              mollitia, minima excepturi, recusandae at veritatis.
-            </ReviewContent>
-          </ReviewContainer>
-          <ReviewContainer>
-            <UserInfo>
-              <UserProfile src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png" />
-              <Username>Leo</Username>
-            </UserInfo>
-            <UserRating>
-              <Rating name="read-only" value={1} />
-            </UserRating>
-            <ReviewTime>2019.2.18</ReviewTime>
-            <ReviewContent>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque
-              reprehenderit voluptatum voluptates delectus modi cum corporis
-              inventore sequi eaque officia cupiditate, ea quidem vitae
-              mollitia, minima excepturi, recusandae at veritatis.
-            </ReviewContent>
-          </ReviewContainer>
-          <ReviewContainer>
-            <UserInfo>
-              <UserProfile src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png" />
-              <Username>Leo</Username>
-            </UserInfo>
-            <UserRating>
-              <Rating name="read-only" value={1} />
-            </UserRating>
-            <ReviewTime>2019.2.18</ReviewTime>
-            <ReviewContent>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque
-              reprehenderit voluptatum voluptates delectus modi cum corporis
-              inventore sequi eaque officia cupiditate, ea quidem vitae
-              mollitia, minima excepturi, recusandae at veritatis.
-            </ReviewContent>
-          </ReviewContainer>
-          <ReviewContainer>
-            <UserInfo>
-              <UserProfile src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png" />
-              <Username>Leo</Username>
-            </UserInfo>
-            <UserRating>
-              <Rating name="read-only" value={1} />
-            </UserRating>
-            <ReviewTime>2019.2.18</ReviewTime>
-            <ReviewContent>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque
-              reprehenderit voluptatum voluptates delectus modi cum corporis
-              inventore sequi eaque officia cupiditate, ea quidem vitae
-              mollitia, minima excepturi, recusandae at veritatis.
-            </ReviewContent>
-          </ReviewContainer>
-        </Reviews>
-      </CommentContainer>
+      <Comments />
     </Container>
   );
 };
