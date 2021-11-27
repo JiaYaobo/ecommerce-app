@@ -1,10 +1,9 @@
-import { Add, Remove } from "@material-ui/icons";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import CartOrder from "../components/CartOrder";
-import { publicRequest } from "../requestMethods";
-
+import { addToTrans } from "../redux/apiCalls";
+import { StyledLink } from "../components/styled-components/StyledLink";
 const Container = styled.div`
   padding: 20px;
 `;
@@ -84,44 +83,85 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const inCartOrders = useSelector((state) => state.order.inCartOrders);
+  const dispatch = useDispatch();
+  const inCartOrders = useSelector((state) => state.cartOrder.inCartOrders);
+  const inCheckOrderIds = useSelector(
+    (state) => state.cartOrder.inCheckOrderIds
+  );
+  const [cartTotal, setCartTotal] = useState(0);
+  const [shipCost, setShipCost] = useState(0);
+  function loadTotalAndShip() {
+    let sum = 0;
+    let ssum = 0;
+    for (let orderId of inCheckOrderIds) {
+      console.log(orderId);
+      console.log(inCartOrders);
+      let order = inCartOrders.filter((o) => o.order_id === orderId)[0];
+      sum = sum + order.order_total;
+      ssum = ssum + order.goods_ship_cost;
+    }
+    setCartTotal(sum);
+    setShipCost(ssum);
+  }
+  const handleCheckOrder = async (event) => {
+    event.preventDefault();
+    for await (let orderId of inCheckOrderIds) {
+      addToTrans(dispatch, orderId);
+    }
+  };
+  useEffect(() => {
+    console.log("father rerender");
+  }, [inCartOrders]);
+
+  useEffect(() => {
+    loadTotalAndShip();
+    console.log("recalculate");
+  }, [inCartOrders, inCheckOrderIds]);
   return (
     <Container>
       <Wrapper>
         <Title>YOUR CART</Title>
         <Top>
-          <TopButton>CONTINUE SHOPPING</TopButton>
+          <StyledLink to="/">
+            <TopButton>CONTINUE SHOPPING</TopButton>
+          </StyledLink>
           <TopTexts>
             <TopText>Shopping Bag ({inCartOrders.length})</TopText>
             <TopText>Your Wishlist</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECK UP NOW</TopButton>
+          <TopButton type="filled" onClick={handleCheckOrder}>
+            CHECK UP NOW
+          </TopButton>
         </Top>
         <Bottom>
           <Info>
-            {inCartOrders.map((item) => (
-              <CartOrder orderId={item.order_id} key={item.order_id} />
+            {inCartOrders.map((item, index) => (
+              <CartOrder
+                orderId={item.order_id}
+                key={item.order_id}
+                index={index}
+              />
             ))}
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>$ 80 </SummaryItemPrice>
+              <SummaryItemPrice>$ {cartTotal} </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping</SummaryItemText>
-              <SummaryItemPrice>$ 1 </SummaryItemPrice>
+              <SummaryItemPrice>$ {shipCost} </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice> $ -1 </SummaryItemPrice>
+              <SummaryItemPrice> $ {0} </SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
               <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80 </SummaryItemPrice>
+              <SummaryItemPrice>$ {shipCost + cartTotal} </SummaryItemPrice>
             </SummaryItem>
-            <Button>CHECK UP</Button>
+            <Button onClick={handleCheckOrder}>CHECK UP</Button>
           </Summary>
         </Bottom>
       </Wrapper>

@@ -1,9 +1,23 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { publicRequest } from "../requestMethods";
-import { Remove, Add } from "@material-ui/icons";
+import { Remove, Add, Delete } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  removeOneOnCartOrder,
+  addOneOnCartOrder,
+  deleteFromOrder,
+} from "../redux/apiCalls";
+import { Checkbox } from "@material-ui/core";
+import { addOrderInCheck, removeOrderInCheck } from "../redux/cartOrderRedux";
 const Product = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  & > .button {
+    cursor: pointer;
+  }
 `;
 const ProductDetail = styled.div`
   flex: 2;
@@ -45,6 +59,9 @@ const ProductAmountContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  & > .button {
+    cursor: pointer;
+  }
 `;
 
 const ProductAmount = styled.span`
@@ -63,8 +80,20 @@ const Hr = styled.hr`
   height: 1px;
 `;
 
-const CartOrder = ({ orderId, key }) => {
+const CartOrder = ({ orderId, index }) => {
+  const dispatch = useDispatch();
+  const [checked, setChecked] = useState(false);
   const [orderInfo, setOrderInfo] = useState({});
+  const inCartOrders = useSelector((state) => state.cartOrder.inCartOrders);
+  const handleCheck = (event) => {
+    console.log(event.target.checked);
+    if (event.target.checked) {
+      dispatch(addOrderInCheck(orderId));
+    } else {
+      dispatch(removeOrderInCheck(orderId));
+    }
+    setChecked(event.target.checked);
+  };
   const getCartOrder = async () => {
     try {
       const res = await publicRequest.get(
@@ -75,6 +104,20 @@ const CartOrder = ({ orderId, key }) => {
       console.log(err);
     }
   };
+  const handleRemoveClick = () => {
+    removeOneOnCartOrder(dispatch, orderId);
+    console.log("remove one");
+  };
+  const handleAddClick = () => {
+    addOneOnCartOrder(dispatch, orderId);
+    console.log("add one");
+  };
+  const handleDeleteClick = () => {
+    deleteFromOrder(dispatch, orderId);
+  };
+  useEffect(() => {
+    console.log("child render");
+  });
   useEffect(() => {
     getCartOrder();
   }, []);
@@ -82,6 +125,11 @@ const CartOrder = ({ orderId, key }) => {
     <>
       <Product>
         <ProductDetail>
+          <Checkbox
+            checked={checked}
+            onChange={handleCheck}
+            inputProps={{ "aria-label": "controlled" }}
+          />
           <Image src={orderInfo?.goods_image} />
           <Details>
             <ProductName>
@@ -90,23 +138,24 @@ const CartOrder = ({ orderId, key }) => {
             </ProductName>
             <ProductId>
               {" "}
-              <b>ID : </b> {orderInfo?.goods_id}
+              <b>ID : </b> {inCartOrders[index]?.goods_id || 0}
             </ProductId>
-            <ProductColor color="black" />
+            <ProductColor color={inCartOrders[index]?.goods_color} />
             <ProductSize>
               {" "}
-              <b>Size : </b> XL{" "}
+              <b>Size : </b> {inCartOrders[index]?.goods_size}
             </ProductSize>
           </Details>
         </ProductDetail>
         <PriceDetail>
           <ProductAmountContainer>
-            <Add />
-            <ProductAmount>{orderInfo?.goods_num}</ProductAmount>
-            <Remove />
+            <Remove className="button remove" onClick={handleRemoveClick} />
+            <ProductAmount>{inCartOrders[index]?.goods_num}</ProductAmount>
+            <Add className="button add" onClick={handleAddClick} />
           </ProductAmountContainer>
-          <ProductPrice>$ {orderInfo?.order_total}</ProductPrice>
+          <ProductPrice>$ {inCartOrders[index]?.order_total}</ProductPrice>
         </PriceDetail>
+        <Delete className="button delete" onClick={handleDeleteClick} />
       </Product>
       <Hr />
     </>

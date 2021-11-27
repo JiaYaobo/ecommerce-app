@@ -4,7 +4,11 @@ import Slider from "../components/Slider";
 import styled from "styled-components";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadOrders } from "../redux/apiCalls";
+import {
+  loadCartOrders,
+  loadFinishedOrders,
+  loadTransOrders,
+} from "../redux/apiCalls";
 
 const Container = styled.div``;
 
@@ -13,18 +17,15 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
-  const { error } = useSelector((state) => state.order);
-  if (error) {
-    console.log(error);
-  }
-
   function loadUserOrders() {
-    loadOrders(dispatch, currentUser.user_id);
+    loadCartOrders(dispatch, currentUser.user_id);
+    loadTransOrders(dispatch, currentUser.user_id);
+    loadFinishedOrders(dispatch, currentUser.user_id);
   }
 
   useEffect(() => {
     currentUser && loadUserOrders();
-  }, [currentUser, loadUserOrders]);
+  }, [currentUser]);
 
   return (
     <Container>

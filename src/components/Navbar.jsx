@@ -1,6 +1,7 @@
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { StyledLink } from "./styled-components/StyledLink";
@@ -100,9 +101,9 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = ({ menuOpen, setMenuOpen }) => {
-  const inCartOrders = useSelector((state) => state.order.inCartOrders);
+  const inCartOrders = useSelector((state) => state.cartOrder.inCartOrders);
   const { currentUser } = useSelector((state) => state.user);
-
+  useEffect(() => {}, [inCartOrders]);
   const RightElemnts = currentUser ? (
     <>
       <MenuItem>Hello, {currentUser.user_name} </MenuItem>

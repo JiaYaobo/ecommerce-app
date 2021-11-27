@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { publicRequest } from "../requestMethods";
 import Comments from "../components/Comments";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../redux/apiCalls";
 
 const Container = styled.div``;
 
@@ -64,6 +66,10 @@ const FilterColor = styled.div`
   background-color: ${(props) => props.color};
   margin: 0 5px;
   cursor: pointer;
+
+  &.chosen {
+    border: 2px solid teal;
+  }
 `;
 
 const FilterSize = styled.select`
@@ -84,6 +90,9 @@ const AmountContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: 700;
+  & > .button {
+    cursor: pointer;
+  }
 `;
 
 const Amount = styled.span`
@@ -109,15 +118,72 @@ const Button = styled.button`
   }
 `;
 
+const ShipContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const ShipTitle = styled.span`
+  font-size: 20px;
+  font-weight: 200;
+`;
+
+const ShipAmount = styled.span`
+  margin-left: 10px;
+`;
+
 const Hr = styled.hr`
   color: grey;
   margin-bottom: 10px;
 `;
 
 const Product = () => {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  const colorSets = ["black", "blue", "red", "yellow", "green", "purple"];
   const [product, setProduct] = useState({});
+  const [amount, setAmount] = useState(1);
+  const [size, setSize] = useState(40);
+  const [ship, setShip] = useState(10);
+  const [color, setColor] = useState("");
   const params = useParams();
-  console.log(params.productId);
+  const handleAddClick = () => {
+    setAmount(amount + 1);
+  };
+  const handleRemoveClick = () => {
+    if (amount > 1) {
+      setAmount(amount - 1);
+    }
+  };
+  const handleSizeChange = (event) => {
+    console.log(event.target.value);
+    setSize(event.target.value);
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // goods_id,
+    //   goods_num,
+    //   goods_ship_cost,
+    //   goods_size,
+    //   goods_color,
+    //   created_at,
+    //   order_status,
+    //   order_expect_time;
+    let order = {
+      user_id: currentUser?.user_id,
+      store_id: product?.store_id,
+      goods_id: product?.goods_id,
+      goods_num: amount,
+      goods_ship_cost: ship,
+      goods_size: size,
+      goods_color: color,
+      order_total: amount * product?.goods_price,
+      order_expect_time: 3,
+    };
+    addToCart(dispatch, order);
+  };
+
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await publicRequest.get(`/product/${params.productId}`);
@@ -135,33 +201,41 @@ const Product = () => {
         <InfoContainer>
           <Title>{product?.goods_name}</Title>
           <Desc>{product?.goods_info}</Desc>
-          <Price>$ {product?.goods_price}</Price>
+          <Price>$ {product?.goods_price * amount}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="grey" />
+              {colorSets.map((c) => (
+                <FilterColor
+                  color={c}
+                  onClick={() => setColor(c)}
+                  className={color === c && "chosen"}
+                />
+              ))}
             </Filter>
-            <Filter>
+            <Filter onChange={handleSizeChange}>
               <FilterTitle>Size</FilterTitle>
               <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
+                <FilterSizeOption>40</FilterSizeOption>
+                <FilterSizeOption>41</FilterSizeOption>
+                <FilterSizeOption>42</FilterSizeOption>
+                <FilterSizeOption>43</FilterSizeOption>
+                <FilterSizeOption>44</FilterSizeOption>
               </FilterSize>
             </Filter>
           </FilterContainer>
           <AddContainer>
             <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
+              <Remove className="button" onClick={handleRemoveClick} />
+              <Amount>{amount}</Amount>
+              <Add className="button" onClick={handleAddClick} />
             </AmountContainer>
-            <Button>Add to Cart</Button>
+            <Button onClick={handleSubmit}>Add to Cart</Button>
           </AddContainer>
+          <ShipContainer>
+            <ShipTitle>Expected Ship Cost: </ShipTitle>
+            <ShipAmount>$ {ship}</ShipAmount>
+          </ShipContainer>
         </InfoContainer>
       </Wrapper>
       <Hr />

@@ -9,6 +9,27 @@ import {
   loadOrdersSuccess,
   loadOrdersFailure,
 } from "./orderRedux";
+import {
+  loadCartOrdersStart,
+  loadCartOrdersSuccess,
+  loadCartOrdersFailure,
+  addOneOfCartOrder,
+  removeOneOfCartOrder,
+  removeOrderFromCart,
+  addOrderToCart,
+  checkOrders,
+} from "./cartOrderRedux";
+import {
+  loadTransOrdersStart,
+  loadTransOrdersSuccess,
+  loadTransOrdersFailure,
+  addTransOrders,
+} from "./transOrderRedux";
+import {
+  loadFinishedOrdersStart,
+  loadFinishedOrdersSuccess,
+  loadFinishedOrdersFailure,
+} from "./finishedOrderRedux";
 
 import { publicRequest } from "../requestMethods";
 
@@ -25,6 +46,86 @@ export const login = async (dispatch, user) => {
 export const logout = async (dispatch) => {
   localStorage.removeItem("persist:root");
   dispatch(logoutSuccess());
+};
+
+export const loadCartOrders = async (dispatch, user_id) => {
+  loadCartOrdersStart();
+  try {
+    const res = await publicRequest.get(`/order/cart_orders/${user_id}`);
+    dispatch(loadCartOrdersSuccess(res.data));
+  } catch (err) {
+    dispatch(loadCartOrdersFailure());
+  }
+};
+
+export const addOneOnCartOrder = async (dispatch, order_id) => {
+  try {
+    const res = await publicRequest.post(`/order/cart_orders/add/${order_id}`);
+    dispatch(addOneOfCartOrder(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const removeOneOnCartOrder = async (dispatch, order_id) => {
+  try {
+    const res = await publicRequest.post(
+      `/order/cart_orders/remove/${order_id}`
+    );
+    dispatch(removeOneOfCartOrder(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const deleteFromOrder = async (dispatch, order_id) => {
+  try {
+    await publicRequest.delete(`/order/cart_orders/${order_id}`);
+    dispatch(removeOrderFromCart(order_id));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const addToCart = async (dispatch, order) => {
+  try {
+    const res = await publicRequest.post(`/order/add_to_cart`, order);
+    dispatch(addOrderToCart(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const loadTransOrders = async (dispatch, user_id) => {
+  loadTransOrdersStart();
+  try {
+    const res = await publicRequest.get(`/order/trans_orders/${user_id}`);
+    dispatch(loadTransOrdersSuccess(res.data));
+  } catch (err) {
+    dispatch(loadTransOrdersFailure());
+  }
+};
+
+export const addToTrans = async (dispatch, orderId) => {
+  try {
+    const res = await publicRequest.post(`/order/add_to_trans`, {
+      orderId: orderId,
+    });
+    dispatch(checkOrders(orderId));
+    dispatch(addTransOrders(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const loadFinishedOrders = async (dispatch, user_id) => {
+  loadFinishedOrdersStart();
+  try {
+    const res = await publicRequest.get(`/order/finished_orders/${user_id}`);
+    dispatch(loadFinishedOrdersSuccess(res.data));
+  } catch (err) {
+    dispatch(loadFinishedOrdersFailure());
+  }
 };
 
 export const loadOrders = async (dispatch, user_id) => {
