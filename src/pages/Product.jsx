@@ -162,14 +162,6 @@ const Product = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // goods_id,
-    //   goods_num,
-    //   goods_ship_cost,
-    //   goods_size,
-    //   goods_color,
-    //   created_at,
-    //   order_status,
-    //   order_expect_time;
     let order = {
       user_id: currentUser?.user_id,
       store_id: product?.store_id,
@@ -187,7 +179,8 @@ const Product = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       const res = await publicRequest.get(`/product/${params.productId}`);
-      setProduct(res.data);
+      const data = await res.data;
+      setProduct(data);
     };
     fetchProduct();
   }, []);

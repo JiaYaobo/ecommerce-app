@@ -96,9 +96,7 @@ const CartOrder = ({ orderId, index }) => {
   };
   const getCartOrder = async () => {
     try {
-      const res = await publicRequest.get(
-        `/order/cart_product_info/${orderId}`
-      );
+      const res = await publicRequest.get(`/order/product_info/${orderId}`);
       setOrderInfo(res.data);
     } catch (err) {
       console.log(err);

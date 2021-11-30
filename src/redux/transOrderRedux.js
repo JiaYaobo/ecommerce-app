@@ -20,12 +20,14 @@ const transOrderSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
-    addTransOrders: (state, action) => {
-      state.inTransOrders = state.inTransOrders.push(action.payload);
+    addOrderToTrans: (state, action) => {
+      state.inTransOrders.push(action.payload);
       state.inTransNum += 1;
     },
-    deleteTransOrders: (state, action) => {
-      state.inTransOrders = action.payload;
+    removeOrderFromTrans: (state, action) => {
+      state.inTransOrders = [
+        ...state.inTransOrders.filter((o) => o.order_id !== action.payload),
+      ];
       state.inTransNum -= 1;
     },
   },
@@ -35,7 +37,7 @@ export const {
   loadTransOrdersStart,
   loadTransOrdersSuccess,
   loadTransOrdersFailure,
-  addTransOrders,
-  deleteTransOrders,
+  addOrderToTrans,
+  removeOrderFromTrans,
 } = transOrderSlice.actions;
 export default transOrderSlice.reducer;

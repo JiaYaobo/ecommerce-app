@@ -1,20 +1,24 @@
 import styled from "styled-components";
 import { Tabs, Tab, Box } from "@material-ui/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TabPanel from "../components/TabPanel";
 import Chart from "../components/Chart";
 import { userData } from "../dummyData";
 import FeaturedInfo from "../components/FeaturedInfo";
 import UserInfo from "../components/UserInfo";
 import OrderList from "../components/OrderList";
-
+import { useDispatch, useSelector } from "react-redux";
+import { loadTransOrders, loadFinishedOrders } from "../redux/apiCalls";
 const Container = styled.div`
   display: flex;
 `;
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
   const [value, setValue] = useState(0);
   const handleChange = (event, newValue) => {
+    event.preventDefault();
     setValue(newValue);
   };
 
@@ -24,6 +28,11 @@ const Profile = () => {
       "aria-controls": `vertical-tabpanel-${index}`,
     };
   };
+
+  useEffect(() => {
+    loadTransOrders(dispatch, currentUser.user_id);
+    loadFinishedOrders(dispatch, currentUser.user_id);
+  }, []);
 
   return (
     <Container>
@@ -42,7 +51,13 @@ const Profile = () => {
           <Tab label="User Stats" {...allyProps(3)} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <OrderList />
+          <OrderList all />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <OrderList trans />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <OrderList finished />
         </TabPanel>
         <TabPanel value={value} index={3}>
           <FeaturedInfo />

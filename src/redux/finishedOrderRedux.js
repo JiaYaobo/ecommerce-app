@@ -22,12 +22,14 @@ const finishedOrderSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
-    addFinishedOrders: (state, action) => {
-      state.inFinishedOrders = state.inFinishedOrders.push(action.payload);
+    addOrderToFinished: (state, action) => {
+      state.inFinishedOrders.push(action.payload);
       state.inFinishedNum += 1;
     },
-    deleteFinishedOrders: (state, action) => {
-      state.inFinishedOrders = action.payload;
+    removeOrderFromFinished: (state, action) => {
+      state.inFinishedOrders = [
+        ...state.inFinishedOrders.filter((o) => o.order_id !== action.payload),
+      ];
       state.inFinishedNum -= 1;
     },
   },
@@ -37,7 +39,7 @@ export const {
   loadFinishedOrdersStart,
   loadFinishedOrdersSuccess,
   loadFinishedOrdersFailure,
-  addFinishedOrders,
-  deleteFinishedOrders,
+  addOrderToFinished,
+  removeOrderFromFinished,
 } = finishedOrderSlice.actions;
 export default finishedOrderSlice.reducer;

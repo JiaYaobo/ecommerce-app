@@ -1,5 +1,7 @@
 import { ArrowDownward } from "@material-ui/icons";
 import React from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -45,37 +47,61 @@ const Sub = styled.span`
 `;
 
 const FeaturedInfo = () => {
+  const inTransOrders = useSelector((state) => state.transOrder.inTransOrders);
+  const inFinishedOrders = useSelector(
+    (state) => state.finishedOrder.inFinishedOrders
+  );
+
+  const [transTotal, setTransTotal] = useState(0);
+  const [finishedTotal, setFinishedTotal] = useState(0);
+
+  function calTransTotal() {
+    let sum = 0;
+    for (let order of inTransOrders) {
+      sum += order.order_total;
+    }
+    setTransTotal(sum);
+  }
+
+  function calFinishedTotal() {
+    let sum = 0;
+    for (let order of inFinishedOrders) {
+      sum += order.order_total;
+    }
+    setFinishedTotal(sum);
+  }
+
+  useEffect(() => {
+    calTransTotal();
+    calFinishedTotal();
+  }, []);
   return (
     <Container>
       <Item>
-        <Title>Revanue</Title>
+        <Title>Transition Orders</Title>
         <MoneyContainer>
-          <Money>$1,111</Money>
-          <MoneyRate>
-            -11 <ArrowDownward />
-          </MoneyRate>
+          <Money>${transTotal}</Money>
+          <MoneyRate>{inTransOrders.length} goods</MoneyRate>
         </MoneyContainer>
-        <Sub>Compared to last month</Sub>
+        <Sub>Orders In Transition</Sub>
       </Item>
       <Item>
-        <Title>Revanue</Title>
+        <Title>Finished Orders</Title>
         <MoneyContainer>
-          <Money>$1,111</Money>
-          <MoneyRate>
-            -11 <ArrowDownward />
-          </MoneyRate>
+          <Money>${finishedTotal}</Money>
+          <MoneyRate>{inFinishedOrders.length} goods</MoneyRate>
         </MoneyContainer>
-        <Sub>Compared to last month</Sub>
+        <Sub>Orders Finished</Sub>
       </Item>
       <Item>
-        <Title>Revanue</Title>
+        <Title>Total</Title>
         <MoneyContainer>
-          <Money>$1,111</Money>
+          <Money>${transTotal + finishedTotal}</Money>
           <MoneyRate>
-            -11 <ArrowDownward />
+            {inFinishedOrders.length + inTransOrders.length} goods
           </MoneyRate>
         </MoneyContainer>
-        <Sub>Compared to last month</Sub>
+        <Sub>All Orders</Sub>
       </Item>
     </Container>
   );

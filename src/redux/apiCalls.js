@@ -23,12 +23,14 @@ import {
   loadTransOrdersStart,
   loadTransOrdersSuccess,
   loadTransOrdersFailure,
-  addTransOrders,
+  addOrderToTrans,
+  removeOrderFromTrans,
 } from "./transOrderRedux";
 import {
   loadFinishedOrdersStart,
   loadFinishedOrdersSuccess,
   loadFinishedOrdersFailure,
+  addOrderToFinished,
 } from "./finishedOrderRedux";
 
 import { publicRequest } from "../requestMethods";
@@ -112,7 +114,26 @@ export const addToTrans = async (dispatch, orderId) => {
       orderId: orderId,
     });
     dispatch(checkOrders(orderId));
-    dispatch(addTransOrders(res.data));
+    dispatch(addOrderToTrans(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const confirmTransOrder = async (dispatch, orderId) => {
+  try {
+    const res = await publicRequest.post(`/order/finish/${orderId}`);
+    dispatch(removeOrderFromTrans(orderId));
+    dispatch(addOrderToFinished(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const cancelTransOrder = async (dispatch, orderId) => {
+  try {
+    await publicRequest.delete(`/order/cancel/${orderId}`);
+    dispatch(removeOrderFromTrans(orderId));
   } catch (err) {
     console.log(err);
   }

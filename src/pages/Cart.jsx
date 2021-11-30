@@ -109,13 +109,10 @@ const Cart = () => {
       addToTrans(dispatch, orderId);
     }
   };
-  useEffect(() => {
-    console.log("father rerender");
-  }, [inCartOrders]);
+  useEffect(() => {}, [inCartOrders]);
 
   useEffect(() => {
     loadTotalAndShip();
-    console.log("recalculate");
   }, [inCartOrders, inCheckOrderIds]);
   return (
     <Container>
