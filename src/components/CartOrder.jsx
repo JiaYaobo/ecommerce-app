@@ -26,6 +26,7 @@ const ProductDetail = styled.div`
 
 const Image = styled.img`
   width: 200px;
+  height: 200px;
 `;
 
 const Details = styled.div`

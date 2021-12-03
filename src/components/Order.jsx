@@ -94,6 +94,10 @@ const Button = styled.button`
 const Order = (props) => {
   const dispatch = useDispatch();
   const [productInfo, setProductInfo] = useState({});
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
   const getProductInfo = async () => {
     try {
       const res = await publicRequest.get(
@@ -106,17 +110,22 @@ const Order = (props) => {
     }
   };
 
-  const handleClickConfirm = (event) => {
+  const handleClickConfirm = (e) => {
     confirmTransOrder(dispatch, props.order.order_id);
   };
 
-  const handleClickCancel = (event) => {
+  const handleClickCancel = (e) => {
     cancelTransOrder(dispatch, props.order.order_id);
+  };
+
+  const handleClickComment = (e) => {
+    e.preventDefault();
+    setOpen(!open);
   };
 
   useEffect(() => {
     getProductInfo();
-  }, [getProductInfo]);
+  }, []);
 
   return (
     <Container>
@@ -153,7 +162,11 @@ const Order = (props) => {
           </>
         )}
         {props.order.order_status === 3 && (
-          <Button buttonType="comment">COMMENT</Button>
+          <>
+            <Button buttonType="comment" onClick={handleClickComment}>
+              COMMENT
+            </Button>
+          </>
         )}
       </Bottom>
     </Container>

@@ -1,5 +1,4 @@
 import Categories from "../components/Categories";
-import Products from "../components/Products";
 import Slider from "../components/Slider";
 import styled from "styled-components";
 import { useEffect } from "react";
@@ -9,6 +8,7 @@ import {
   loadFinishedOrders,
   loadTransOrders,
 } from "../redux/apiCalls";
+import PopularProducts from "../components/PopularProducts";
 
 const Container = styled.div``;
 
@@ -31,7 +31,7 @@ const Home = () => {
     <Container>
       <Slider />
       <Categories />
-      <Products />
+      <PopularProducts />
     </Container>
   );
 };

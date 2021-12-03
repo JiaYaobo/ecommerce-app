@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { StyledLink } from "./styled-components/StyledLink";
+import { StyledSearch } from "./styled-components/StyledSearch";
 
 const Container = styled.div`
   height: 60px;
@@ -76,6 +77,9 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Center = styled.div`
@@ -137,7 +141,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
           <Language>EN</Language>
           <SearchContainer>
             <Input />
-            <Search style={{ color: "gray", fontSize: "16px" }} />
+            <StyledSearch />
           </SearchContainer>
         </Left>
         <Center>
