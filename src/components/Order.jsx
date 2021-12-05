@@ -4,6 +4,7 @@ import { publicRequest } from "../requestMethods";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { confirmTransOrder, cancelTransOrder } from "../redux/apiCalls";
+import CommentBox from "./CommentBox";
 const Container = styled.div`
   padding: 10px;
   display: flex;
@@ -95,9 +96,6 @@ const Order = (props) => {
   const dispatch = useDispatch();
   const [productInfo, setProductInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
   const getProductInfo = async () => {
     try {
       const res = await publicRequest.get(
@@ -120,7 +118,7 @@ const Order = (props) => {
 
   const handleClickComment = (e) => {
     e.preventDefault();
-    setOpen(!open);
+    setOpen(true);
   };
 
   useEffect(() => {
@@ -130,13 +128,18 @@ const Order = (props) => {
   return (
     <Container>
       <Top>
-        <StoreName>{productInfo?.user_name}</StoreName>
+        <StoreName>
+          <b>Store : </b>
+          {productInfo?.user_name}
+        </StoreName>
         <OrderStatus>
           {props.order.order_status == 2 ? "in trans" : "finished"}
         </OrderStatus>
       </Top>
       <Middle>
-        <GoodsImg src={productInfo?.goods_image} alt={"loading"} />
+        <StyledLink to={`/product/${productInfo.goods_id}`}>
+          <GoodsImg src={productInfo?.goods_image} alt={"loading"} />
+        </StyledLink>
         <GoodsName>{productInfo?.goods_name}</GoodsName>
         <Detail>
           <TotalCost>$ {props.order.order_total}</TotalCost>
@@ -166,6 +169,11 @@ const Order = (props) => {
             <Button buttonType="comment" onClick={handleClickComment}>
               COMMENT
             </Button>
+            <CommentBox
+              open={open}
+              setOpen={setOpen}
+              orderId={props.order.order_id}
+            />
           </>
         )}
       </Bottom>

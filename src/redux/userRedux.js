@@ -23,9 +23,21 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = false;
       state.currentUser = null;
-    }
+    },
+    updateUserInfo: (state, action) => {
+      state.currentUser.user_name = action.payload.user_name;
+      state.currentUser.user_province = action.payload.user_province;
+      state.currentUser.user_city = action.payload.user_city;
+      state.currentUser.user_mobile = action.payload.user_mobile;
+    },
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logoutSuccess } = userSlice.actions;
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logoutSuccess,
+  updateUserInfo,
+} = userSlice.actions;
 export default userSlice.reducer;

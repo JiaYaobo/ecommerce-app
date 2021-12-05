@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Rating } from "@material-ui/lab";
+import { format } from "timeago.js";
+import { ThumbUpAltOutlined } from "@material-ui/icons";
 const ReviewContainer = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: column;
   align-content: flex-start;
@@ -15,7 +18,11 @@ const UserInfo = styled.div`
 `;
 
 const UserProfile = styled.img`
-  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 5px 5px;
 `;
 
 const Username = styled.span``;
@@ -26,26 +33,47 @@ const ReviewTime = styled.span`
   color: grey;
 `;
 
+const ReviewLikeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const LikeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LikeNum = styled.span`
+  margin-left: 5px;
+`;
+
 const ReviewContent = styled.div`
   font-weight: 400;
 `;
-const Comment = () => {
+
+const Comment = ({ item }) => {
   return (
     <ReviewContainer>
       <UserInfo>
-        <UserProfile src="https://images-na.ssl-images-amazon.com/images/S/amazon-avatars-global/default._CR0,0,1024,1024_SX48_.png" />
-        <Username>Leo</Username>
+        <UserProfile
+          src={
+            "https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png"
+          }
+        />
+        <Username>{item.user_name}</Username>
       </UserInfo>
       <UserRating>
-        <Rating name="read-only" value={1} />
+        <Rating name="read-only" value={item.comment_rating} />
       </UserRating>
-      <ReviewTime>2019.2.18</ReviewTime>
-      <ReviewContent>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque
-        reprehenderit voluptatum voluptates delectus modi cum corporis inventore
-        sequi eaque officia cupiditate, ea quidem vitae mollitia, minima
-        excepturi, recusandae at veritatis.
-      </ReviewContent>
+      <ReviewTime>{format(item.created_at)}</ReviewTime>
+      <ReviewLikeContainer>
+        <ReviewContent>{item.comment_text}</ReviewContent>
+        <LikeContainer>
+          <ThumbUpAltOutlined />
+          <LikeNum>{item.comment_likes}</LikeNum>
+        </LikeContainer>
+      </ReviewLikeContainer>
     </ReviewContainer>
   );
 };

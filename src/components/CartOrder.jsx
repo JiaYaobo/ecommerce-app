@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { StyledLink } from "./styled-components/StyledLink";
 import { publicRequest } from "../requestMethods";
 import { Remove, Add, Delete } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,6 +39,8 @@ const Details = styled.div`
 const ProductName = styled.span``;
 
 const ProductId = styled.span``;
+
+const StoreName = styled.span``;
 
 const ProductColor = styled.div`
   width: 20px;
@@ -105,18 +108,13 @@ const CartOrder = ({ orderId, index }) => {
   };
   const handleRemoveClick = () => {
     removeOneOnCartOrder(dispatch, orderId);
-    console.log("remove one");
   };
   const handleAddClick = () => {
     addOneOnCartOrder(dispatch, orderId);
-    console.log("add one");
   };
   const handleDeleteClick = () => {
     deleteFromOrder(dispatch, orderId);
   };
-  useEffect(() => {
-    console.log("child render");
-  });
   useEffect(() => {
     getCartOrder();
   }, []);
@@ -131,14 +129,22 @@ const CartOrder = ({ orderId, index }) => {
           />
           <Image src={orderInfo?.goods_image} />
           <Details>
-            <ProductName>
-              {" "}
-              <b>Product : </b> {orderInfo?.goods_name}
-            </ProductName>
+            <StyledLink to={`/product/${inCartOrders[index]?.goods_id}`}>
+              <ProductName>
+                {" "}
+                <b>Product : </b> {orderInfo?.goods_name}
+              </ProductName>
+            </StyledLink>
             <ProductId>
               {" "}
               <b>ID : </b> {inCartOrders[index]?.goods_id || 0}
             </ProductId>
+            <StyledLink to={`/store/${orderInfo?.store_id}`}>
+              <StoreName>
+                <b>Store : </b>
+                {orderInfo?.user_name}
+              </StoreName>
+            </StyledLink>
             <ProductColor color={inCartOrders[index]?.goods_color} />
             <ProductSize>
               {" "}

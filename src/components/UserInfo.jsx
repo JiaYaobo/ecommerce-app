@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { StyledLink } from "./styled-components/StyledLink";
 
 const Container = styled.div`
   flex: 1;
@@ -103,8 +104,9 @@ const UserInfo = () => {
           {" "}
           <b>Contact : </b> {currentUser?.user_mobile}
         </Mobile>
-        <Edit>EDIT</Edit>
-        <Save>SAVE</Save>
+        <StyledLink to="/edit">
+          <Edit>EDIT</Edit>
+        </StyledLink>
       </Wrapper>
     </Container>
   );

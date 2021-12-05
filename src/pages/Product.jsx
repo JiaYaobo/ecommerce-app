@@ -1,16 +1,28 @@
 import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
+import { StyledLink } from "../components/styled-components/StyledLink";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { publicRequest } from "../requestMethods";
 import Comments from "../components/Comments";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/apiCalls";
+import { Button } from "@material-ui/core";
+import TDShoe from "../components/TDShoe";
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
+  display: flex;
+`;
+
+const ShowContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ButtonContainer = styled.div`
   display: flex;
 `;
 
@@ -30,7 +42,13 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 200;
+  font-weight: 500;
+`;
+
+const StoreEnter = styled.span`
+  font-size: 12px;
+  font-weight: 300;
+  text-decoration: underline;
 `;
 
 const Desc = styled.p`
@@ -106,7 +124,7 @@ const Amount = styled.span`
   margin: 0 5px;
 `;
 
-const Button = styled.button`
+const SubmitButton = styled.button`
   padding: 15px;
   border: 2px solid teal;
   background-color: #fff;
@@ -146,7 +164,8 @@ const Product = () => {
   const [amount, setAmount] = useState(1);
   const [size, setSize] = useState(40);
   const [ship, setShip] = useState(10);
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("black");
+  const [tdOrPlain, setTdOrPlain] = useState(0);
   const params = useParams();
   const handleAddClick = () => {
     setAmount(amount + 1);
@@ -184,15 +203,32 @@ const Product = () => {
     };
     fetchProduct();
   }, []);
-  // https://d3o2e4jr3mxnm3.cloudfront.net/Mens-Jake-Guitar-Vintage-Crusher-Tee_68382_1_lg.png
+
   return (
     <Container>
       <Wrapper>
-        <ImgContainer>
-          <Image src={product?.goods_image} />
-        </ImgContainer>
+        <ShowContainer>
+          <ButtonContainer>
+            <Button variant="contained" onClick={() => setTdOrPlain(0)}>
+              PLAIN
+            </Button>
+            <Button variant="contained" onClick={() => setTdOrPlain(1)}>
+              3D
+            </Button>
+          </ButtonContainer>
+          <ImgContainer>
+            {tdOrPlain === 0 ? (
+              <Image src={product?.goods_image} />
+            ) : (
+              <TDShoe />
+            )}
+          </ImgContainer>
+        </ShowContainer>
         <InfoContainer>
           <Title>{product?.goods_name}</Title>
+          <StyledLink to={`/store/${product?.store_id}`}>
+            <StoreEnter>ENTER STORE</StoreEnter>
+          </StyledLink>
           <Desc>{product?.goods_info}</Desc>
           <Price>$ {product?.goods_price * amount}</Price>
           <FilterContainer>
@@ -223,7 +259,7 @@ const Product = () => {
               <Amount>{amount}</Amount>
               <Add className="button" onClick={handleAddClick} />
             </AmountContainer>
-            <Button onClick={handleSubmit}>Add to Cart</Button>
+            <SubmitButton onClick={handleSubmit}>Add to Cart</SubmitButton>
           </AddContainer>
           <ShipContainer>
             <ShipTitle>Expected Ship Cost: </ShipTitle>
@@ -232,7 +268,7 @@ const Product = () => {
         </InfoContainer>
       </Wrapper>
       <Hr />
-      <Comments />
+      <Comments productId={params.productId} />
     </Container>
   );
 };

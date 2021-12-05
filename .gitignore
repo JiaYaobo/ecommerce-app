@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 .env
+.bin
+.gltf
 # testing
 /coverage
 

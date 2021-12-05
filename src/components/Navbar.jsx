@@ -1,4 +1,4 @@
-import { Badge } from "@material-ui/core";
+import { Avatar, Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
@@ -102,6 +102,7 @@ const MenuItem = styled.div`
   font-size: 14px;
   cursor: pointer;
   margin-left: 10px;
+  margin-right: 5px;
 `;
 
 const Navbar = ({ menuOpen, setMenuOpen }) => {
@@ -111,6 +112,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
   const RightElemnts = currentUser ? (
     <>
       <MenuItem>Hello, {currentUser.user_name} </MenuItem>
+      <Avatar sx={{ width: 16, height: 16 }}>{currentUser.user_name[0]}</Avatar>
       <MenuItem>
         <StyledLink to="/cart" style={{ textDecoration: "none" }}>
           <Badge badgeContent={inCartOrders.length} color="primary">

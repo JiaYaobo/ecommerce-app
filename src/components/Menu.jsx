@@ -30,6 +30,8 @@ const MenuList = styled.ul`
   font-weight: 300;
   color: #6d6666;
   width: 60%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MenuItemContainer = styled.li`
@@ -83,9 +85,6 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
             <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
               <MenuItemTitle>Home</MenuItemTitle>
             </Link>
-            <MenuItemSubItem>Featured Info</MenuItemSubItem>
-            <MenuItemSubItem>Featured Categories</MenuItemSubItem>
-            <MenuItemSubItem>Featured Products</MenuItemSubItem>
           </MenuItem>
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e)}>
@@ -94,11 +93,8 @@ const Menu = ({ menuOpen, setMenuOpen }) => {
               to="/products/all"
               style={{ textDecoration: "none", color: "inherit" }}
             >
-              <MenuItemTitle>Departments</MenuItemTitle>
+              <MenuItemTitle>Explore</MenuItemTitle>
             </Link>
-            <MenuItemSubItem>Shirts</MenuItemSubItem>
-            <MenuItemSubItem>Shorts</MenuItemSubItem>
-            <MenuItemSubItem>Shoes</MenuItemSubItem>
           </MenuItem>
         </MenuItemContainer>
         <MenuItemContainer onClick={(e) => handleClick(e)}>

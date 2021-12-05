@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { publicRequest } from "../requestMethods";
+import MyPagination from "./MyPagination";
 import Product from "./Product";
 
 const Container = styled.div`
@@ -12,11 +13,27 @@ const Container = styled.div`
 
 const Products = (props) => {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(50);
+
   const getAllProds = async () => {
     const res = await publicRequest.get(`/product/products/all`);
     const data = await res.data;
     setProducts([...data]);
   };
+
+  const getStoreProds = async () => {
+    try {
+      const res = await publicRequest.get(
+        `/product/products/store/${props.storeId}`
+      );
+      const data = await res.data;
+      setProducts([...data]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const getProdsByFiltersAndSort = async () => {
     let filters = {};
     let sort = props.sort;
@@ -56,13 +73,38 @@ const Products = (props) => {
       getProdsByFiltersAndSort();
     }
   }, [props?.filters, props?.sort]);
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (props.all) {
+      getAllProds();
+    } else if (props.storeId) {
+      getStoreProds();
+    }
+  }, []);
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  useEffect(() => {
+    console.log(currentPage);
+  }, [currentPage]);
   return (
-    <Container>
-      {products?.map((item) => (
-        <Product item={item} key={item.goods_id} />
-      ))}
-    </Container>
+    <>
+      <Container>
+        {currentProducts?.map((item) => (
+          <Product item={item} key={item.goods_id} />
+        ))}
+      </Container>
+      <MyPagination
+        productsPerPage={productsPerPage}
+        totalProducts={products.length}
+        paginate={paginate}
+      />
+    </>
   );
 };
 

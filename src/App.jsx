@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import Announcement from "./components/Announcement";
 import Ship from "./pages/Ship";
 import Store from "./pages/Store";
+import Edit from "./pages/Edit.jsx";
 
 function App() {
   const user = useSelector((state) => {
@@ -52,7 +53,8 @@ function App() {
             path="/order/1/ship"
             element={user ? <Ship /> : <Login />}
           />
-          <Route exact path="/shop/1" element={<Store />} />
+          <Route exact path="/store/:storeId" element={<Store />} />
+          <Router exact path="/edit" element={<Edit />} />
           <Route
             exact
             path="/register"
