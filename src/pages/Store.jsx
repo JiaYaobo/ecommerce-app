@@ -3,41 +3,39 @@ import Products from "../components/Products";
 import { useParams } from "react-router";
 import { publicRequest } from "../requestMethods";
 import { useEffect, useState } from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 const Container = styled.div``;
 
 const StoreName = styled.h1`
   margin: 20px;
 `;
 
-const FilterContainer = styled.div`
+const FilterSortContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 `;
 
-const Filter = styled.div`
-  margin: 20px;
+const FilterContainer = styled.div`
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: flex-start;
+  margin-left: 20px;
 `;
 
 const FilterText = styled.span`
   font-size: 20px;
   font-weight: 600;
+  margin-left: 20px;
   margin-right: 20px;
 `;
 
-const SelectText = styled.span`
-  font-size: 14px;
-  font-weight: 300;
-  margin-right: 10px;
+const SortContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  margin-top: 20px;
 `;
-
-const Select = styled.select`
-  padding: 10px;
-  margin-right: 20px;
-`;
-
-const Option = styled.option``;
-
 const Store = () => {
   const [storeInfo, setStoreInfo] = useState({});
   const params = useParams();
@@ -72,52 +70,111 @@ const Store = () => {
         {" "}
         <b>Store : </b> {storeInfo?.user_name}
       </StoreName>
-      <FilterContainer>
-        <Filter>
+      <FilterSortContainer>
+        <FilterContainer>
           <FilterText>Filter Products:</FilterText>
-          <SelectText>Brand:</SelectText>
-          <Select name="brand" onChange={handleFilters}>
-            <Option selected>All</Option>
-            <Option>Anta</Option>
-            <Option>LiNing</Option>
-            <Option>Nike</Option>
-            <Option>New Balance</Option>
-            <Option>XTEP</Option>
-          </Select>
-          <SelectText>Sex:</SelectText>
-          <Select name="sex" onChange={handleFilters}>
-            <Option selected>All</Option>
-            <Option>Male</Option>
-            <Option>Female</Option>
-          </Select>
-          <SelectText>Price:</SelectText>
-          <Select name="price" onChange={handleFilters}>
-            <Option selected>All</Option>
-            <Option>0-100</Option>
-            <Option>100-300</Option>
-            <Option>300-500</Option>
-            <Option>500-800</Option>
-            <Option>800-1000</Option>
-            <Option>1000+</Option>
-          </Select>
-          <SelectText>Function:</SelectText>
-          <Select name="function" onChange={handleFilters}>
-            <Option selected>All</Option>
-            <Option>Sports</Option>
-            <Option>Leisure</Option>
-            <Option>Basketball</Option>
-            <Option>FootBall</Option>
-          </Select>
-        </Filter>
-        <Filter>
+          <FormControl
+            variant="standard"
+            style={{ minWidth: 120, marginRight: "10px" }}
+          >
+            <InputLabel id="brand-input-label">Brand</InputLabel>
+            <Select
+              labelId="brand-select-label"
+              id="brand-select"
+              name="brand"
+              label="Brand"
+              value={filters.brand}
+              onChange={handleFilters}
+            >
+              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"nike"}>Nike</MenuItem>
+              <MenuItem value={"nb"}>New Balance</MenuItem>
+              <MenuItem value={"adidas"}>Adidas</MenuItem>
+              <MenuItem value={"anta"}>Anta</MenuItem>
+              <MenuItem value={"xtep"}>XTEP</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="standard"
+            style={{ minWidth: 120, marginRight: "10px" }}
+          >
+            <InputLabel id="sex-input-label">Sex</InputLabel>
+            <Select
+              labelId="sex-select-label"
+              id="sex-select"
+              value={filters.sex}
+              label="Sex"
+              name="sex"
+              onChange={handleFilters}
+            >
+              <MenuItem value={"M"}>Male</MenuItem>
+              <MenuItem value={"F"}>Female</MenuItem>
+              <MenuItem value={"U"}>All</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="standard"
+            style={{ minWidth: 120, marginRight: "10px" }}
+          >
+            <InputLabel id="function-input-label">Function</InputLabel>
+            <Select
+              labelId="function-select-label"
+              id="function-select"
+              value={filters.function}
+              label="Function"
+              name="function"
+              onChange={handleFilters}
+            >
+              <MenuItem value={"A"}>Sports</MenuItem>
+              <MenuItem value={"B"}>Leisure</MenuItem>
+              <MenuItem value={"C"}>Walk</MenuItem>
+              <MenuItem value={"all"}>All</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl
+            variant="standard"
+            style={{ minWidth: 120, marginRight: "10px" }}
+          >
+            <InputLabel id="price-input-label">Price</InputLabel>
+            <Select
+              labelId="price-select-label"
+              id="price-select"
+              value={filters.price}
+              label="Price"
+              name="price"
+              onChange={handleFilters}
+            >
+              <MenuItem value={"0-100"}>0-100</MenuItem>
+              <MenuItem value={"100-300"}>100-300</MenuItem>
+              <MenuItem value={"300-500"}>300-500</MenuItem>
+              <MenuItem value={"800-1000"}>800-1000</MenuItem>
+              <MenuItem value={"1000+"}>1000+</MenuItem>
+              <MenuItem value={"all"}>All</MenuItem>
+            </Select>
+          </FormControl>
+        </FilterContainer>
+        <SortContainer>
           <FilterText>Sort Products:</FilterText>
-          <Select onChange={(e) => setSort(e.target.value)}>
-            <Option selected>Newest</Option>
-            <Option>Price (asc)</Option>
-            <Option>Price (desc)</Option>
-          </Select>
-        </Filter>
-      </FilterContainer>
+          <FormControl
+            variant="standard"
+            style={{ minWidth: 120, marginRight: "10px" }}
+          >
+            <InputLabel id="sort-input-label">Sort By</InputLabel>
+            <Select
+              labelId="sort-select-label"
+              id="sort-select"
+              value={sort}
+              label="Sort"
+              name="sort"
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <MenuItem value={"newest"}>Newest</MenuItem>
+              <MenuItem value={"asc"}>Price Asc</MenuItem>
+              <MenuItem value={"desc"}>Price Desc</MenuItem>
+            </Select>
+          </FormControl>
+        </SortContainer>
+      </FilterSortContainer>
       <Products storeId={params.storeId} sort={sort} filters={filters} />
     </Container>
   );

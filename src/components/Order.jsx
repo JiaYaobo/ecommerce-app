@@ -133,6 +133,7 @@ const Order = (props) => {
           {productInfo?.user_name}
         </StoreName>
         <OrderStatus>
+          <b>Status : </b>
           {props.order.order_status == 2 ? "in trans" : "finished"}
         </OrderStatus>
       </Top>
@@ -142,10 +143,16 @@ const Order = (props) => {
         </StyledLink>
         <GoodsName>{productInfo?.goods_name}</GoodsName>
         <Detail>
-          <TotalCost>$ {props.order.order_total}</TotalCost>
-          <TotalNum>Total Num : {props.order.goods_num}</TotalNum>
+          <TotalCost>
+            <b>Total : </b> $ {props.order.order_total}
+          </TotalCost>
+          <TotalNum>
+            {" "}
+            <b>Total Num : </b>
+            {props.order.goods_num}
+          </TotalNum>
           <ColorContainer>
-            <span>Color : </span>
+            <b>Color : </b>
             <Color color={props.order.goods_color} />
           </ColorContainer>
         </Detail>

@@ -54,7 +54,7 @@ function App() {
             element={user ? <Ship /> : <Login />}
           />
           <Route exact path="/store/:storeId" element={<Store />} />
-          <Router exact path="/edit" element={<Edit />} />
+          <Router exact path="/edit" element={user ? <Edit /> : <Login />} />
           <Route
             exact
             path="/register"

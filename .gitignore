@@ -7,6 +7,10 @@
 .env
 .bin
 .gltf
+textures
+adidas
+nike
+newbalance
 # testing
 /coverage
 

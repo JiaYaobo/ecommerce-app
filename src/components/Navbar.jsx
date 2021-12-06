@@ -1,5 +1,9 @@
 import { Avatar, Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import {
+  NotificationsNone,
+  Search,
+  ShoppingCartOutlined,
+} from "@material-ui/icons";
 import React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -109,11 +113,19 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
   const inCartOrders = useSelector((state) => state.cartOrder.inCartOrders);
   const { currentUser } = useSelector((state) => state.user);
   useEffect(() => {}, [inCartOrders]);
+  useEffect(() => {}, [currentUser]);
   const RightElemnts = currentUser ? (
     <>
       <MenuItem>Hello, {currentUser.user_name} </MenuItem>
-      <Avatar sx={{ width: 16, height: 16 }}>{currentUser.user_name[0]}</Avatar>
+      <StyledLink to="/me">
+        <Avatar sx={{ width: 16, height: 16 }}>
+          {currentUser.user_name[0]}
+        </Avatar>
+      </StyledLink>
       <MenuItem>
+        <Badge color="primary">
+          <NotificationsNone />
+        </Badge>
         <StyledLink to="/cart" style={{ textDecoration: "none" }}>
           <Badge badgeContent={inCartOrders.length} color="primary">
             <ShoppingCartOutlined />

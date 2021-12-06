@@ -62,12 +62,15 @@ const Edit = () => {
   const [newInfo, setNewInfo] = useState({});
   const dispatch = useDispatch();
   async function updateAUserInfo() {
-    console.log(values);
-    const res = await publicRequest.post(
-      `/member/update/${currentUser.user_id}`,
-      values
-    );
-    setNewInfo(res.data);
+    try {
+      const res = await publicRequest.post(
+        `/member/update/${currentUser.user_id}`,
+        values
+      );
+      setNewInfo(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   }
   const updateFunc = () => {
     updateAUserInfo();

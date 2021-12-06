@@ -12,7 +12,7 @@ const Container = styled.div`
 `;
 
 const Announcement = () => {
-  return <Container>THIS IS SHOES PARADIGM</Container>;
+  return <Container>2021 INTRODUCES TO DATABSE SYSTEMS</Container>;
 };
 
 export default Announcement;

@@ -89,7 +89,7 @@ const Comments = (props) => {
         </RatingBar>
       </OverallReviews>
       <Reviews>
-        <ReviewsTitle>Reviews from users</ReviewsTitle>
+        <ReviewsTitle>Reviews from users ({comments.length})</ReviewsTitle>
         {comments.map((item) => (
           <Comment item={item} key={item.comment_id} />
         ))}
