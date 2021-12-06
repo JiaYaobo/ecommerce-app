@@ -60,6 +60,11 @@ const Price = styled.span`
   font-size: 40px;
 `;
 
+const Stock = styled.span`
+  font-weight: 100;
+  font-size: 24px;
+`;
+
 const FilterContainer = styled.div`
   width: 50%;
   margin: 30px 0;
@@ -191,6 +196,7 @@ const Product = () => {
       goods_color: color,
       order_total: amount * product?.goods_price,
       order_expect_time: 3,
+      comment_status: 0,
     };
     addToCart(dispatch, order);
   };
@@ -231,6 +237,7 @@ const Product = () => {
           </StyledLink>
           <Desc>{product?.goods_info}</Desc>
           <Price>$ {product?.goods_price * amount}</Price>
+          <Stock>stock : {product?.goods_stock}</Stock>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
@@ -245,6 +252,10 @@ const Product = () => {
             <Filter onChange={handleSizeChange}>
               <FilterTitle>Size</FilterTitle>
               <FilterSize>
+                <FilterSizeOption>36</FilterSizeOption>
+                <FilterSizeOption>37</FilterSizeOption>
+                <FilterSizeOption>38</FilterSizeOption>
+                <FilterSizeOption>39</FilterSizeOption>
                 <FilterSizeOption>40</FilterSizeOption>
                 <FilterSizeOption>41</FilterSizeOption>
                 <FilterSizeOption>42</FilterSizeOption>
