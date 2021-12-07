@@ -4,6 +4,7 @@ import orderReducer from "./orderRedux";
 import cartOrderReducer from "./cartOrderRedux";
 import transOrderReducer from "./transOrderRedux";
 import finishedOrderReducer from "./finishedOrderRedux";
+import waitOrderReducer from "./waitOrderRedux";
 
 import {
   persistStore,
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   cartOrder: cartOrderReducer,
   transOrder: transOrderReducer,
   finishedOrder: finishedOrderReducer,
+  waitOrder: waitOrderReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

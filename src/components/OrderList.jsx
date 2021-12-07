@@ -12,18 +12,25 @@ const OrderList = (props) => {
   const inFinishedOrders = useSelector(
     (state) => state.finishedOrder.inFinishedOrders
   );
+  const inWaitOrders = useSelector((state) => state.waitOrder.inWaitOrders);
 
   const [orders, setOrders] = useState([]);
   useEffect(() => {}, [inTransOrders, inFinishedOrders]);
   useEffect(() => {
     if (props.all) {
-      setOrders((prev) => [...inTransOrders, ...inFinishedOrders]);
+      setOrders((prev) => [
+        ...inWaitOrders,
+        ...inTransOrders,
+        ...inFinishedOrders,
+      ]);
     } else if (props.trans) {
       setOrders((prev) => [...inTransOrders]);
     } else if (props.finished) {
       setOrders((prev) => [...inFinishedOrders]);
+    } else if (props.wait) {
+      setOrders((prev) => [...inWaitOrders]);
     }
-  }, [props, inTransOrders, inFinishedOrders]);
+  }, [props, inTransOrders, inFinishedOrders, inWaitOrders]);
 
   return (
     <Container>

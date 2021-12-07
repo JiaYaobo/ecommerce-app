@@ -8,7 +8,11 @@ import FeaturedInfo from "../components/FeaturedInfo";
 import UserInfo from "../components/UserInfo";
 import OrderList from "../components/OrderList";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTransOrders, loadFinishedOrders } from "../redux/apiCalls";
+import {
+  loadTransOrders,
+  loadFinishedOrders,
+  loadWaitOrders,
+} from "../redux/apiCalls";
 const Container = styled.div`
   display: flex;
 `;
@@ -32,6 +36,7 @@ const Profile = () => {
   useEffect(() => {
     loadTransOrders(dispatch, currentUser.user_id);
     loadFinishedOrders(dispatch, currentUser.user_id);
+    loadWaitOrders(dispatch, currentUser.user_id);
   }, []);
 
   return (
@@ -46,20 +51,24 @@ const Profile = () => {
           aria-label="secondary tabs example"
         >
           <Tab label="All Orders" {...allyProps(0)} />
-          <Tab label="In Transit" {...allyProps(1)} />
-          <Tab label="Finsihed" {...allyProps(2)} />
-          <Tab label="User Stats" {...allyProps(3)} />
+          <Tab label="Waiting" {...allyProps(1)} />
+          <Tab label="In Transit" {...allyProps(2)} />
+          <Tab label="Finsihed" {...allyProps(3)} />
+          <Tab label="User Stats" {...allyProps(4)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <OrderList all />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <OrderList trans />
+          <OrderList wait />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <OrderList finished />
+          <OrderList trans />
         </TabPanel>
         <TabPanel value={value} index={3}>
+          <OrderList finished />
+        </TabPanel>
+        <TabPanel value={value} index={4}>
           <FeaturedInfo />
           <Chart data={userData} title="Analytics" grid dataKey="Active User" />
         </TabPanel>

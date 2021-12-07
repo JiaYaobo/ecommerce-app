@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import CartOrder from "../components/CartOrder";
-import { addToTrans } from "../redux/apiCalls";
+import { addToTrans, addToWait } from "../redux/apiCalls";
 import { StyledLink } from "../components/styled-components/StyledLink";
 const Container = styled.div`
   padding: 20px;
@@ -106,7 +106,7 @@ const Cart = () => {
   const handleCheckOrder = async (event) => {
     event.preventDefault();
     for await (let orderId of inCheckOrderIds) {
-      addToTrans(dispatch, orderId);
+      addToWait(dispatch, orderId);
     }
   };
   useEffect(() => {}, [inCartOrders]);

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Products from "../components/Products";
 import { useState } from "react";
+import { useLocation } from "react-router";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 const Container = styled.div``;
 
@@ -42,7 +43,9 @@ const ProductList = () => {
     price: "All",
     function: "All",
   });
+  const location = useLocation();
   const [sort, setSort] = useState("newest");
+  const cat = location.pathname.split("/")[2];
   const handleFilters = (e) => {
     console.log(filters);
     const value = e.target.value;
@@ -71,7 +74,7 @@ const ProductList = () => {
               value={filters.brand}
               onChange={handleFilters}
             >
-              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"nike"}>Nike</MenuItem>
               <MenuItem value={"nb"}>New Balance</MenuItem>
               <MenuItem value={"adidas"}>Adidas</MenuItem>
@@ -94,7 +97,7 @@ const ProductList = () => {
             >
               <MenuItem value={"M"}>Male</MenuItem>
               <MenuItem value={"F"}>Female</MenuItem>
-              <MenuItem value={"U"}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -113,7 +116,7 @@ const ProductList = () => {
               <MenuItem value={"A"}>Sports</MenuItem>
               <MenuItem value={"B"}>Leisure</MenuItem>
               <MenuItem value={"C"}>Walk</MenuItem>
-              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -129,12 +132,13 @@ const ProductList = () => {
               name="price"
               onChange={handleFilters}
             >
-              <MenuItem value={"0-100"}>0-100</MenuItem>
-              <MenuItem value={"100-300"}>100-300</MenuItem>
-              <MenuItem value={"300-500"}>300-500</MenuItem>
-              <MenuItem value={"800-1000"}>800-1000</MenuItem>
-              <MenuItem value={"1000+"}>1000+</MenuItem>
-              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"1"}>0-100</MenuItem>
+              <MenuItem value={"2"}>100-300</MenuItem>
+              <MenuItem value={"3"}>300-500</MenuItem>
+              <MenuItem value={"4"}>500-800</MenuItem>
+              <MenuItem value={"5"}>800-1000</MenuItem>
+              <MenuItem value={"6"}>1000+</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
         </FilterContainer>
@@ -160,7 +164,7 @@ const ProductList = () => {
           </FormControl>
         </SortContainer>
       </FilterSortContainer>
-      <Products all sort={sort} filters={filters} />
+      <Products all cat={cat} sort={sort} filters={filters} />
     </Container>
   );
 };

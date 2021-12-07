@@ -7,6 +7,7 @@ import {
   loadCartOrders,
   loadFinishedOrders,
   loadTransOrders,
+  loadWaitOrders,
 } from "../redux/apiCalls";
 import PopularProducts from "../components/PopularProducts";
 
@@ -21,6 +22,7 @@ const Home = () => {
     loadCartOrders(dispatch, currentUser.user_id);
     loadTransOrders(dispatch, currentUser.user_id);
     loadFinishedOrders(dispatch, currentUser.user_id);
+    loadWaitOrders(dispatch, currentUser.user_id);
   }
 
   useEffect(() => {

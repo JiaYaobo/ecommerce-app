@@ -22,7 +22,7 @@ const RatingTitle = styled.span`
   margin-right: 20px;
 `;
 
-const CommentBox = ({ open, setOpen, orderId }) => {
+const CommentBox = ({ open, setOpen, orderId, setCommentStatus }) => {
   const [rating, setRating] = useState(5);
   const [text, setText] = useState("");
   const handleClose = () => {
@@ -36,6 +36,7 @@ const CommentBox = ({ open, setOpen, orderId }) => {
     };
 
     const res = await publicRequest.post("/comment/", comment);
+    setCommentStatus(1);
     setOpen(false);
   };
   useEffect(() => {

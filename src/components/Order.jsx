@@ -3,7 +3,11 @@ import { StyledLink } from "./styled-components/StyledLink";
 import { publicRequest } from "../requestMethods";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { confirmTransOrder, cancelTransOrder } from "../redux/apiCalls";
+import {
+  confirmTransOrder,
+  cancelTransOrder,
+  cancelWaitOrder,
+} from "../redux/apiCalls";
 import CommentBox from "./CommentBox";
 const Container = styled.div`
   padding: 10px;
@@ -96,6 +100,7 @@ const Order = (props) => {
   const dispatch = useDispatch();
   const [productInfo, setProductInfo] = useState({});
   const [open, setOpen] = useState(false);
+  const [commentStatus, setCommentStatus] = useState(props.comment_status);
   const getProductInfo = async () => {
     try {
       const res = await publicRequest.get(
@@ -113,7 +118,7 @@ const Order = (props) => {
   };
 
   const handleClickCancel = (e) => {
-    cancelTransOrder(dispatch, props.order.order_id);
+    cancelWaitOrder(dispatch, props.order.order_id);
   };
 
   const handleClickComment = (e) => {
@@ -158,6 +163,13 @@ const Order = (props) => {
         </Detail>
       </Middle>
       <Bottom>
+        {props.order.order_status === 1 && (
+          <>
+            <Button buttonType="cancel" onClick={handleClickCancel}>
+              CANCEL
+            </Button>
+          </>
+        )}
         {props.order.order_status === 2 && (
           <>
             <Button buttonType="confirm" onClick={handleClickConfirm}>
@@ -166,20 +178,22 @@ const Order = (props) => {
             <StyledLink to="/order/1/ship">
               <Button buttonType="check">CHECK</Button>
             </StyledLink>
-            <Button buttonType="cancel" onClick={handleClickCancel}>
-              CANCEL
-            </Button>
           </>
         )}
         {props.order.order_status === 3 && (
           <>
-            <Button buttonType="comment" onClick={handleClickComment}>
+            <Button
+              buttonType="comment"
+              onClick={handleClickComment}
+              disabled={commentStatus === 0 ? false : true}
+            >
               COMMENT
             </Button>
             <CommentBox
               open={open}
               setOpen={setOpen}
               orderId={props.order.order_id}
+              setCommentStatus={setCommentStatus}
             />
           </>
         )}

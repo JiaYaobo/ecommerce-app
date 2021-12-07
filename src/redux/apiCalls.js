@@ -33,6 +33,14 @@ import {
   addOrderToFinished,
 } from "./finishedOrderRedux";
 
+import {
+  addOrderToWait,
+  loadWaitOrdersFailure,
+  loadWaitOrdersStart,
+  loadWaitOrdersSuccess,
+  removeOrderFromWait,
+} from "./waitOrderRedux";
+
 import { publicRequest } from "../requestMethods";
 
 export const login = async (dispatch, user) => {
@@ -120,6 +128,18 @@ export const addToTrans = async (dispatch, orderId) => {
   }
 };
 
+export const addToWait = async (dispatch, orderId) => {
+  try {
+    const res = await publicRequest.post(`/order/add_to_wait`, {
+      orderId: orderId,
+    });
+    dispatch(checkOrders(orderId));
+    dispatch(addOrderToWait(res.data));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const confirmTransOrder = async (dispatch, orderId) => {
   try {
     const res = await publicRequest.post(`/order/finish/${orderId}`);
@@ -139,6 +159,15 @@ export const cancelTransOrder = async (dispatch, orderId) => {
   }
 };
 
+export const cancelWaitOrder = async (dispatch, orderId) => {
+  try {
+    await publicRequest.delete(`/order/cancel/${orderId}`);
+    dispatch(removeOrderFromWait(orderId));
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const loadFinishedOrders = async (dispatch, user_id) => {
   loadFinishedOrdersStart();
   try {
@@ -146,6 +175,16 @@ export const loadFinishedOrders = async (dispatch, user_id) => {
     dispatch(loadFinishedOrdersSuccess(res.data));
   } catch (err) {
     dispatch(loadFinishedOrdersFailure());
+  }
+};
+
+export const loadWaitOrders = async (dispatch, user_id) => {
+  loadWaitOrdersStart();
+  try {
+    const res = await publicRequest.get(`/order/wait_orders/${user_id}`);
+    dispatch(loadWaitOrdersSuccess(res.data));
+  } catch (err) {
+    dispatch(loadWaitOrdersFailure());
   }
 };
 
