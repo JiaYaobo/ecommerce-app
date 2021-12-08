@@ -86,12 +86,12 @@ const Store = () => {
               value={filters.brand}
               onChange={handleFilters}
             >
-              <MenuItem value={"all"}>All</MenuItem>
-              <MenuItem value={"nike"}>Nike</MenuItem>
-              <MenuItem value={"nb"}>New Balance</MenuItem>
-              <MenuItem value={"adidas"}>Adidas</MenuItem>
-              <MenuItem value={"anta"}>Anta</MenuItem>
-              <MenuItem value={"xtep"}>XTEP</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
+              <MenuItem value={"NIKE"}>Nike</MenuItem>
+              <MenuItem value={"NB"}>New Balance</MenuItem>
+              <MenuItem value={"ADIDAS"}>Adidas</MenuItem>
+              <MenuItem value={"ANTA"}>Anta</MenuItem>
+              <MenuItem value={"XTEP"}>XTEP</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -109,7 +109,7 @@ const Store = () => {
             >
               <MenuItem value={"M"}>Male</MenuItem>
               <MenuItem value={"F"}>Female</MenuItem>
-              <MenuItem value={"U"}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -128,7 +128,7 @@ const Store = () => {
               <MenuItem value={"A"}>Sports</MenuItem>
               <MenuItem value={"B"}>Leisure</MenuItem>
               <MenuItem value={"C"}>Walk</MenuItem>
-              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
           <FormControl
@@ -144,12 +144,13 @@ const Store = () => {
               name="price"
               onChange={handleFilters}
             >
-              <MenuItem value={"0-100"}>0-100</MenuItem>
-              <MenuItem value={"100-300"}>100-300</MenuItem>
-              <MenuItem value={"300-500"}>300-500</MenuItem>
-              <MenuItem value={"800-1000"}>800-1000</MenuItem>
-              <MenuItem value={"1000+"}>1000+</MenuItem>
-              <MenuItem value={"all"}>All</MenuItem>
+              <MenuItem value={"1"}>0-100</MenuItem>
+              <MenuItem value={"2"}>100-300</MenuItem>
+              <MenuItem value={"3"}>300-500</MenuItem>
+              <MenuItem value={"4"}>500-800</MenuItem>
+              <MenuItem value={"5"}>800-1000</MenuItem>
+              <MenuItem value={"6"}>1000+</MenuItem>
+              <MenuItem value={"All"}>All</MenuItem>
             </Select>
           </FormControl>
         </FilterContainer>

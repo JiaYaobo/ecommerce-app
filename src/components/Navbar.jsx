@@ -123,9 +123,11 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
         </Avatar>
       </StyledLink>
       <MenuItem>
-        <Badge color="primary">
-          <NotificationsNone />
-        </Badge>
+        <StyledLink to="/message">
+          <Badge color="primary">
+            <NotificationsNone />
+          </Badge>
+        </StyledLink>
         <StyledLink to="/cart" style={{ textDecoration: "none" }}>
           <Badge badgeContent={inCartOrders.length} color="primary">
             <ShoppingCartOutlined />

@@ -3,6 +3,7 @@ import Products from "../components/Products";
 import { useState } from "react";
 import { useLocation } from "react-router";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+
 const Container = styled.div``;
 
 const Title = styled.h1`
@@ -75,11 +76,11 @@ const ProductList = () => {
               onChange={handleFilters}
             >
               <MenuItem value={"All"}>All</MenuItem>
-              <MenuItem value={"nike"}>Nike</MenuItem>
-              <MenuItem value={"nb"}>New Balance</MenuItem>
-              <MenuItem value={"adidas"}>Adidas</MenuItem>
-              <MenuItem value={"anta"}>Anta</MenuItem>
-              <MenuItem value={"xtep"}>XTEP</MenuItem>
+              <MenuItem value={"NIKE"}>Nike</MenuItem>
+              <MenuItem value={"NB"}>New Balance</MenuItem>
+              <MenuItem value={"ADIDAS"}>Adidas</MenuItem>
+              <MenuItem value={"ANTA"}>Anta</MenuItem>
+              <MenuItem value={"XTEP"}>XTEP</MenuItem>
             </Select>
           </FormControl>
           <FormControl

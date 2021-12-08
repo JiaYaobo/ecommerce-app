@@ -36,6 +36,44 @@ const Products = (props) => {
     }
   };
 
+  const priceCons = (price, min_price, max_price) => {
+    return price >= min_price && price <= max_price;
+  };
+
+  const sexCons = (sex, limit) => {
+    if (limit === "U") {
+      return true;
+    } else {
+      return sex.toLowerCase().includes(limit.toLowerCase());
+    }
+  };
+
+  const brandCons = (brand, limit) => {
+    if (limit === "All") {
+      return true;
+    } else {
+      return brand.toLowerCase().includes(limit.toLowerCase());
+    }
+  };
+
+  const funcCons = (func, limit) => {
+    if (limit === "All") {
+      return true;
+    } else {
+      console.log(func);
+      return func.toLowerCase().includes(limit.toLowerCase());
+    }
+  };
+
+  const filterProducts = (filters, prod) => {
+    return (
+      priceCons(prod.goods_price, filters.min_price, filters.max_price) &&
+      brandCons(prod.goods_brand, filters.brand) &&
+      sexCons(prod.goods_sex, filters.sex) &&
+      funcCons(prod.goods_func, filters.function)
+    );
+  };
+
   const getProdsByFiltersAndSort = async () => {
     console.log(props.filters);
     let filters = {};
@@ -45,7 +83,6 @@ const Products = (props) => {
     filters.function = props.filters.function;
     switch (props.filters.price) {
       case "All":
-        console.log("all price prods");
         filters.min_price = 0;
         filters.max_price = 1000000;
         break;
@@ -86,29 +123,8 @@ const Products = (props) => {
       default:
         break;
     }
-    switch (filters.brand) {
-      case "nike":
-        break;
-      default:
-        break;
-    }
-    console.log(products);
-    setFilterSortProducts(
-      products.filter(
-        (p) =>
-          p.goods_price >= filters.min_price &&
-          p.goods_price <= filters.max_price
-      )
-    );
+    setFilterSortProducts(products.filter((p) => filterProducts(filters, p)));
   };
-
-  // const filterProducts = (filters,prod)=>{
-  //   if(prod.goods_price>=filters.min_price && getProdsByFiltersAndSort.goods_price<=filters.max_price){
-  //     if (prod.goods_sex === filters.goods_sex){
-  //       if(prod.goods_brand === filters.goods_brand)
-  //     }
-  //   }
-  // }
 
   useEffect(() => {
     if (!props.popular && products.length != 0) {

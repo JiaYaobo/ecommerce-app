@@ -1,4 +1,4 @@
-import { Add, Remove } from "@material-ui/icons";
+import { Add, ArrowDownwardOutlined, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import { StyledLink } from "../components/styled-components/StyledLink";
 import { useEffect, useState } from "react";
@@ -61,9 +61,12 @@ const Price = styled.span`
 `;
 
 const Stock = styled.span`
-  font-weight: 100;
-  font-size: 24px;
+  font-weight: 200;
+  font-size: 18px;
+  margin-left: 20px;
 `;
+
+const Discount = styled.span``;
 
 const FilterContainer = styled.div`
   width: 50%;
@@ -171,6 +174,7 @@ const Product = () => {
   const [ship, setShip] = useState(10);
   const [color, setColor] = useState("black");
   const [tdOrPlain, setTdOrPlain] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const params = useParams();
   const handleAddClick = () => {
     setAmount(amount + 1);
@@ -181,7 +185,6 @@ const Product = () => {
     }
   };
   const handleSizeChange = (event) => {
-    console.log(event.target.value);
     setSize(event.target.value);
   };
   const handleSubmit = (event) => {
@@ -194,9 +197,8 @@ const Product = () => {
       goods_ship_cost: ship,
       goods_size: size,
       goods_color: color,
-      order_total: amount * product?.goods_price,
+      order_total: (amount * product?.goods_price * (100 - discount)) / 100,
       order_expect_time: 3,
-      comment_status: 0,
     };
     addToCart(dispatch, order);
   };
@@ -208,6 +210,19 @@ const Product = () => {
       setProduct(data);
     };
     fetchProduct();
+  }, []);
+
+  useEffect(() => {
+    const fetchDiscount = async () => {
+      const res = await publicRequest.get(
+        `/vip/discount/${currentUser.user_id}/${params.productId}`
+      );
+      const data = await res.data;
+      console.log(data);
+      const dis = data.length === 0 ? 0 : data[0].discount;
+      setDiscount(dis);
+    };
+    fetchDiscount();
   }, []);
 
   return (
@@ -237,6 +252,8 @@ const Product = () => {
           </StyledLink>
           <Desc>{product?.goods_info}</Desc>
           <Price>$ {product?.goods_price * amount}</Price>
+          <ArrowDownwardOutlined />
+          <Discount>{discount} %</Discount>
           <Stock>stock : {product?.goods_stock}</Stock>
           <FilterContainer>
             <Filter>
