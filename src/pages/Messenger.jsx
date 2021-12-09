@@ -7,7 +7,7 @@ import Message from "../components/Message";
 import { io } from "socket.io-client";
 
 const Container = styled.div`
-  height: 600px;
+  height: 100vh;
   display: flex;
 `;
 
@@ -100,10 +100,15 @@ const Messenger = () => {
     e.preventDefault();
     const message = {
       sender_id: currentUser.user_id,
-      receiver_id: currentChat.store_id,
+      receiver_id: currentChat?.store_id,
       message_text: newMessage,
-      conversation_id: currentChat.conversation_id,
+      conversation_id: currentChat?.conversation_id,
     };
+    socket.current.emit("sendMessage", {
+      senderId: currentUser.user_id,
+      receiverId: currentChat?.store_id,
+      text: newMessage,
+    });
     try {
       const res = await publicRequest.post(`/chat/messages`, message);
       setMessages([...messages, res.data]);
@@ -117,21 +122,22 @@ const Messenger = () => {
     socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
       setArriveMessage({
-        sender_id: data.sender_id,
-        message_text: data.message_text,
+        sender_id: data.senderId,
+        message_text: data.text,
         created_at: Date.now(),
+        conversation_id: currentChat?.conversation_id,
       });
     });
   }, []);
 
   useEffect(() => {
+    arriveMessage &&
+      currentChat?.store_id === arriveMessage.sender_id &&
+      setMessages((prev) => [...prev, arriveMessage]);
+  }, [arriveMessage, currentChat]);
+
+  useEffect(() => {
     socket.current.emit("addUser", currentUser.user_id);
-    // socket.current.on("getUsers", (users) => {
-    //   setOnlineUsers(
-    //     user.followings.filter((f) => users.some((u) => u.userId === f))
-    //   );
-    //   console.log(onlineUsers);
-    // });
   }, [currentUser]);
 
   useEffect(() => {
@@ -155,7 +161,6 @@ const Messenger = () => {
   useEffect(() => {
     scrollRef?.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
   return (
     <Container>
       <ChatMenu>
@@ -179,11 +184,12 @@ const Messenger = () => {
             <>
               <ChatBoxTop>
                 {" "}
-                {messages?.map((m) => (
+                {messages?.map((m, index) => (
                   <div ref={scrollRef}>
                     <Message
                       message={m}
                       own={m?.sender_id === currentUser.user_id}
+                      key={index}
                     />
                   </div>
                 ))}

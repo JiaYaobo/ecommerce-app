@@ -124,6 +124,19 @@ const Products = (props) => {
         break;
     }
     setFilterSortProducts(products.filter((p) => filterProducts(filters, p)));
+    if (sort === "newest") {
+      setFilterSortProducts((prev) =>
+        [...prev].sort((a, b) => a.created_at - b.created_at)
+      );
+    } else if (sort === "asc") {
+      setFilterSortProducts((prev) =>
+        [...prev].sort((a, b) => a.goods_price - b.goods_price)
+      );
+    } else {
+      setFilterSortProducts((prev) =>
+        [...prev].sort((a, b) => b.goods_price - a.goods_price)
+      );
+    }
   };
 
   useEffect(() => {

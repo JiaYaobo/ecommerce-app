@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { Rating } from "@material-ui/lab";
 import { format } from "timeago.js";
 import { ThumbUpAltOutlined } from "@material-ui/icons";
+import { publicRequest } from "../requestMethods";
+import { useState } from "react";
+
 const ReviewContainer = styled.div`
   width: 70%;
   display: flex;
@@ -53,6 +56,11 @@ const ReviewContent = styled.div`
 `;
 
 const Comment = ({ item }) => {
+  const [like, setLike] = useState(item.comment_likes);
+  const handleLike = async () => {
+    await publicRequest.post(`/comment/like/${item.comment_id}`);
+    setLike(like + 1);
+  };
   return (
     <ReviewContainer>
       <UserInfo>
@@ -70,8 +78,8 @@ const Comment = ({ item }) => {
       <ReviewLikeContainer>
         <ReviewContent>{item.comment_text}</ReviewContent>
         <LikeContainer>
-          <ThumbUpAltOutlined />
-          <LikeNum>{item.comment_likes}</LikeNum>
+          <ThumbUpAltOutlined onClick={handleLike} />
+          <LikeNum>{like}</LikeNum>
         </LikeContainer>
       </ReviewLikeContainer>
     </ReviewContainer>
