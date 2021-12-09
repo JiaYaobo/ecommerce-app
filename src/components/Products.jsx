@@ -30,7 +30,6 @@ const Products = (props) => {
       );
       const data = await res.data;
       setProducts([...data]);
-      // setFilterSortProducts([...data]);
     } catch (err) {
       console.log(err);
     }

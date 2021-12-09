@@ -4,7 +4,16 @@ import { useParams } from "react-router";
 import { publicRequest } from "../requestMethods";
 import { useEffect, useState } from "react";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { MessageOutlined } from "@material-ui/icons";
+import { StyledLink } from "../components/styled-components/StyledLink";
+import { useSelector } from "react-redux";
+
 const Container = styled.div``;
+
+const StoreContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const StoreName = styled.h1`
   margin: 20px;
@@ -38,6 +47,7 @@ const SortContainer = styled.div`
 `;
 const Store = () => {
   const [storeInfo, setStoreInfo] = useState({});
+  const { currentUser } = useSelector((state) => state.user);
   const params = useParams();
   const [filters, setFilters] = useState({
     brand: "All",
@@ -59,6 +69,16 @@ const Store = () => {
     setStoreInfo(data);
   };
 
+  const handleContact = async () => {
+    try {
+      await publicRequest.post(
+        `/chat/create_conversation/${currentUser.user_id}/${params.storeId}`
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     if (params.storeId) {
       getStoreInfo();
@@ -66,10 +86,18 @@ const Store = () => {
   }, []);
   return (
     <Container>
-      <StoreName>
-        {" "}
-        <b>Store : </b> {storeInfo?.user_name}
-      </StoreName>
+      <StoreContainer>
+        <StoreName>
+          {" "}
+          <b>Store : </b> {storeInfo?.user_name}
+        </StoreName>
+        <StyledLink to="/message">
+          <MessageOutlined
+            style={{ cursor: "pointer" }}
+            onClick={handleContact}
+          />
+        </StyledLink>
+      </StoreContainer>
       <FilterSortContainer>
         <FilterContainer>
           <FilterText>Filter Products:</FilterText>

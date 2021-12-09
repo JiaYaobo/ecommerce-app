@@ -72,7 +72,7 @@ const Comment = ({ item }) => {
         <Username>{item.user_name}</Username>
       </UserInfo>
       <UserRating>
-        <Rating name="read-only" value={item.comment_rating} />
+        <Rating name="read-only" value={item.comment_rating} readOnly />
       </UserRating>
       <ReviewTime>{format(item.created_at)}</ReviewTime>
       <ReviewLikeContainer>

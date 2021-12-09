@@ -7,7 +7,7 @@ import Message from "../components/Message";
 import { io } from "socket.io-client";
 
 const Container = styled.div`
-  height: 100vh;
+  height: 800px;
   display: flex;
 `;
 
@@ -68,7 +68,7 @@ const Button = styled.button`
 
 const NoConversations = styled.div`
   position: absolute;
-  top: 10%;
+  top: 20%;
   font-size: 50px;
   color: rgb(212, 208, 208);
   cursor: default;

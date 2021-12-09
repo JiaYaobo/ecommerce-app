@@ -100,7 +100,9 @@ const Order = (props) => {
   const dispatch = useDispatch();
   const [productInfo, setProductInfo] = useState({});
   const [open, setOpen] = useState(false);
-  const [commentStatus, setCommentStatus] = useState(props.comment_status);
+  const [commentStatus, setCommentStatus] = useState(
+    props.order.comment_status
+  );
   const getProductInfo = async () => {
     try {
       const res = await publicRequest.get(
@@ -175,7 +177,7 @@ const Order = (props) => {
             <Button buttonType="confirm" onClick={handleClickConfirm}>
               CONFIRM
             </Button>
-            <StyledLink to="/order/1/ship">
+            <StyledLink to={`/order/${props.order.order_id}/ship`}>
               <Button buttonType="check">CHECK</Button>
             </StyledLink>
           </>
@@ -185,9 +187,9 @@ const Order = (props) => {
             <Button
               buttonType="comment"
               onClick={handleClickComment}
-              disabled={commentStatus === 0 ? false : true}
+              disabled={commentStatus === 1 ? true : false}
             >
-              COMMENT
+              {commentStatus === 1 ? "FINISHED" : "COMMENT"}
             </Button>
             <CommentBox
               open={open}

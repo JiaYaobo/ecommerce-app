@@ -56,7 +56,7 @@ function App() {
           <Route exact path="/me" element={user ? <Profile /> : <Login />} />
           <Route
             exact
-            path="/order/1/ship"
+            path="/order/:orderId/ship"
             element={user ? <Ship /> : <Login />}
           />
           <Route exact path="/store/:storeId" element={<Store />} />
