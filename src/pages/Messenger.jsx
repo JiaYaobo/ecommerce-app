@@ -108,6 +108,7 @@ const Messenger = () => {
       senderId: currentUser.user_id,
       receiverId: currentChat?.store_id,
       text: newMessage,
+      created_at: Date.now(),
     });
     try {
       const res = await publicRequest.post(`/chat/messages`, message);
@@ -120,14 +121,16 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.current = io("ws://localhost:8900");
-    socket.current.on("getMessage", (data) => {
+    const getMessage = (data) => {
       setArriveMessage({
         sender_id: data.senderId,
+        receriver_id: currentUser.user_id,
         message_text: data.text,
         created_at: Date.now(),
-        conversation_id: currentChat?.conversation_id,
       });
-    });
+    };
+    socket.current.on("getMessage", getMessage);
+    return () => socket.current.off("message", getMessage);
   }, []);
 
   useEffect(() => {
@@ -148,14 +151,15 @@ const Messenger = () => {
     const getMessages = async () => {
       try {
         const res = await publicRequest.get(
-          "/chat/messages/" + currentChat.conversation_id
+          "/chat/messages/" + currentChat?.conversation_id
         );
-        setMessages(res.data);
+        const data = await res.data;
+        setMessages([...data]);
       } catch (err) {
         console.log(err);
       }
     };
-    getMessages();
+    currentChat && getMessages();
   }, [currentChat]);
 
   useEffect(() => {
@@ -171,7 +175,6 @@ const Messenger = () => {
               <div onClick={() => setCurrentChat(c)}>
                 <Conversation
                   conversationId={c.conversation_id}
-                  currentUser={currentUser}
                   key={c.conversation_id}
                 />
               </div>

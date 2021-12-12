@@ -3,7 +3,6 @@ import { Tabs, Tab, Box } from "@material-ui/core";
 import { useState, useEffect } from "react";
 import TabPanel from "../components/TabPanel";
 import Chart from "../components/Chart";
-import { userData } from "../dummyData";
 import FeaturedInfo from "../components/FeaturedInfo";
 import UserInfo from "../components/UserInfo";
 import OrderList from "../components/OrderList";
@@ -13,6 +12,7 @@ import {
   loadFinishedOrders,
   loadWaitOrders,
 } from "../redux/apiCalls";
+import { publicRequest } from "../requestMethods";
 const Container = styled.div`
   display: flex;
 `;
@@ -21,6 +21,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
   const [value, setValue] = useState(0);
+  const [sdata, setSData] = useState([]);
   const handleChange = (event, newValue) => {
     event.preventDefault();
     setValue(newValue);
@@ -37,6 +38,18 @@ const Profile = () => {
     loadTransOrders(dispatch, currentUser.user_id);
     loadFinishedOrders(dispatch, currentUser.user_id);
     loadWaitOrders(dispatch, currentUser.user_id);
+  }, []);
+
+  useEffect(() => {
+    const fetchSeasonData = async () => {
+      const res = await publicRequest.get(
+        "/stats/season_stats/user/" + currentUser.user_id
+      );
+      const data = await res.data;
+      console.log(data);
+      setSData([...data]);
+    };
+    fetchSeasonData();
   }, []);
 
   return (
@@ -70,7 +83,7 @@ const Profile = () => {
         </TabPanel>
         <TabPanel value={value} index={4}>
           <FeaturedInfo />
-          <Chart data={userData} title="Analytics" grid dataKey="Active User" />
+          <Chart data={sdata} title="Season Cost" grid dataKey="cost" />
         </TabPanel>
       </Box>
       <UserInfo />
