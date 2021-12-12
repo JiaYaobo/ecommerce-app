@@ -68,12 +68,12 @@ const Register = () => {
   }
 
   const { onChange, onSubmit, values } = useForm(registerMember, {
-    username: "",
-    home_address: "",
-    mobile: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    user_name: "",
+    user_province: "",
+    user_city: "",
+    user_mobile: "",
+    user_email: "",
+    user_password: "",
   });
   return (
     <Container>
@@ -81,40 +81,40 @@ const Register = () => {
         <Title>CREATE YOUR ACOUNT</Title>
         <Form onSubmit={onSubmit}>
           <Input
-            name="username"
+            name="user_name"
             placeholder="username"
-            value={values.username}
+            value={values.user_name}
             onChange={onChange}
           />
           <Input
-            name="email"
+            name="user_email"
             placeholder="email"
             onChange={onChange}
-            value={values.email}
+            value={values.user_email}
           />
           <Input
-            name="home_address"
-            placeholder="city"
+            name="user_province"
+            placeholder="Province"
             onChange={onChange}
-            value={values.home_address}
+            value={values.user_province}
           />
           <Input
-            name="mobile"
+            name="user_city"
+            placeholder="City"
+            onChange={onChange}
+            value={values.user_city}
+          />
+          <Input
+            name="user_mobile"
             placeholder="mobile"
             onChange={onChange}
-            value={values.mobile}
+            value={values.user_mobile}
           />
           <Input
-            name="password"
+            name="user_password"
             placeholder="password"
             onChange={onChange}
-            value={values.password}
-          />
-          <Input
-            name="confirmPassword"
-            placeholder="confirm password"
-            onChange={onChange}
-            value={values.confirmPassword}
+            value={values.user_password}
           />
           <Agreement>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Autem
