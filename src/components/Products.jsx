@@ -35,6 +35,18 @@ const Products = (props) => {
     }
   };
 
+  const getSearchProds = async () => {
+    try {
+      const res = await publicRequest.post("/product/search_goods/search", {
+        query: props.search,
+      });
+      const data = await res.data;
+      setProducts([...data]);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const priceCons = (price, min_price, max_price) => {
     return price >= min_price && price <= max_price;
   };
@@ -144,12 +156,15 @@ const Products = (props) => {
     }
   }, [props.filters, props.sort, products]);
   useEffect(() => {
-    if (props.cat === "all") {
+    if (props.cat && props.cat === "all") {
       getAllProds();
     } else if (props.storeId) {
       getStoreProds();
+    } else if (props.search) {
+      console.log(props.search);
+      getSearchProds();
     }
-  }, [props.cat]);
+  }, []);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

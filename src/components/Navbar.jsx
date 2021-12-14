@@ -5,6 +5,7 @@ import {
   ShoppingCartOutlined,
 } from "@material-ui/icons";
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -112,6 +113,13 @@ const MenuItem = styled.div`
 const Navbar = ({ menuOpen, setMenuOpen }) => {
   const inCartOrders = useSelector((state) => state.cartOrder.inCartOrders);
   const { currentUser } = useSelector((state) => state.user);
+
+  const [searchInput, setSearchInput] = useState("");
+
+  const onChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
   useEffect(() => {}, [inCartOrders]);
   useEffect(() => {}, [currentUser]);
   const RightElemnts = currentUser ? (
@@ -156,8 +164,14 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
           </Hamburger>
           <Language>EN</Language>
           <SearchContainer>
-            <Input />
-            <StyledSearch />
+            <Input
+              name="search"
+              value={searchInput}
+              onChange={(e) => onChange(e)}
+            />
+            <StyledLink to={`/search?q=${searchInput}`}>
+              <StyledSearch />
+            </StyledLink>
           </SearchContainer>
         </Left>
         <Center>

@@ -22,6 +22,7 @@ import Ship from "./pages/Ship";
 import Store from "./pages/Store";
 import Edit from "./pages/Edit.jsx";
 import Messenger from "./pages/Messenger";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   const user = useSelector((state) => {
@@ -70,6 +71,11 @@ function App() {
             exact
             path="/login"
             element={user ? <Navigate to="/" /> : <Login />}
+          />
+          <Route
+            exact
+            path="/search"
+            element={user ? <SearchPage /> : <Login />}
           />
         </Routes>
         {user && <Newsletter />}
