@@ -46,12 +46,13 @@ const ReviewsTitle = styled.span`
 
 const Comments = (props) => {
   const [totalRating, setTotalRating] = useState(2);
-  const [fiveRating, setFiveRating] = useState(2);
-  const [fourRating, setFourRating] = useState(2);
-  const [threeRating, setThreeRating] = useState(2);
-  const [twoRating, setTwoRating] = useState(2);
-  const [oneRating, setOneRating] = useState(2);
+  const [fiveRating] = useState(5);
+  const [fourRating] = useState(4);
+  const [threeRating] = useState(3);
+  const [twoRating] = useState(2);
+  const [oneRating] = useState(1);
   const [comments, setComments] = useState([]);
+  const [rateData, setRateData] = useState({});
 
   const loadComments = async () => {
     const res = await publicRequest.get(`/comment/comments/${props.productId}`);
@@ -61,31 +62,46 @@ const Comments = (props) => {
   useEffect(() => {
     loadComments();
   }, []);
+
+  useEffect(() => {
+    const fetchRatings = async () => {
+      try {
+        const res = await publicRequest.get(
+          "/comment/overview/" + props.productId
+        );
+        const data = await res.data;
+        setRateData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchRatings();
+  }, []);
   return (
     <CommentContainer>
       <OverallReviews>
         <OverallTitle>Customer Reviews</OverallTitle>
-        <Rating name="read-only" value={totalRating} />
-        <RatingDetail>{totalRating} out of 5</RatingDetail>
+        <Rating name="read-only" value={rateData.total} />
+        <RatingDetail>{rateData?.total.toFixed(1)} out of 5</RatingDetail>
         <RatingBar>
           <Rating name="read-only" value={fiveRating} />
-          <RatingDetail>50%</RatingDetail>
+          <RatingDetail>{rateData?.star5}</RatingDetail>
         </RatingBar>
         <RatingBar>
           <Rating name="read-only" value={fourRating} />
-          <RatingDetail>10%</RatingDetail>
+          <RatingDetail>{rateData?.star4}</RatingDetail>
         </RatingBar>
         <RatingBar>
           <Rating name="read-only" value={threeRating} />
-          <RatingDetail>10%</RatingDetail>
+          <RatingDetail>{rateData?.star3}</RatingDetail>
         </RatingBar>
         <RatingBar>
           <Rating name="read-only" value={twoRating} />
-          <RatingDetail>20%</RatingDetail>
+          <RatingDetail>{rateData?.star2}</RatingDetail>
         </RatingBar>
         <RatingBar>
           <Rating name="read-only" value={oneRating} />
-          <RatingDetail>10%</RatingDetail>
+          <RatingDetail>{rateData?.star1}</RatingDetail>
         </RatingBar>
       </OverallReviews>
       <Reviews>

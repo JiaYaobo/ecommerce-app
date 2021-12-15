@@ -164,7 +164,7 @@ const Products = (props) => {
       console.log(props.search);
       getSearchProds();
     }
-  }, []);
+  }, [props.search]);
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;

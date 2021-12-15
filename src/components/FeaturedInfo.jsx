@@ -1,4 +1,3 @@
-import { ArrowDownward } from "@material-ui/icons";
 import React from "react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -80,7 +79,7 @@ const FeaturedInfo = () => {
       <Item>
         <Title>Transition Orders</Title>
         <MoneyContainer>
-          <Money>${transTotal}</Money>
+          <Money>${transTotal.toFixed(2)}</Money>
           <MoneyRate>{inTransOrders.length} goods</MoneyRate>
         </MoneyContainer>
         <Sub>Orders In Transition</Sub>
@@ -88,7 +87,7 @@ const FeaturedInfo = () => {
       <Item>
         <Title>Finished Orders</Title>
         <MoneyContainer>
-          <Money>${finishedTotal}</Money>
+          <Money>${finishedTotal.toFixed(2)}</Money>
           <MoneyRate>{inFinishedOrders.length} goods</MoneyRate>
         </MoneyContainer>
         <Sub>Orders Finished</Sub>
@@ -96,7 +95,7 @@ const FeaturedInfo = () => {
       <Item>
         <Title>Total</Title>
         <MoneyContainer>
-          <Money>${transTotal + finishedTotal}</Money>
+          <Money>${(transTotal + finishedTotal).toFixed(2)}</Money>
           <MoneyRate>
             {inFinishedOrders.length + inTransOrders.length} goods
           </MoneyRate>

@@ -1,9 +1,5 @@
 import { Avatar, Badge } from "@material-ui/core";
-import {
-  NotificationsNone,
-  Search,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
+import { NotificationsNone, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";

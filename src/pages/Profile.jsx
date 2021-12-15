@@ -13,6 +13,7 @@ import {
   loadWaitOrders,
 } from "../redux/apiCalls";
 import { publicRequest } from "../requestMethods";
+import UserPrefer from "../components/UserPrefer";
 const Container = styled.div`
   display: flex;
 `;
@@ -68,6 +69,7 @@ const Profile = () => {
           <Tab label="In Transit" {...allyProps(2)} />
           <Tab label="Finsihed" {...allyProps(3)} />
           <Tab label="User Stats" {...allyProps(4)} />
+          <Tab label="User Prefer" {...allyProps(5)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <OrderList all />
@@ -84,6 +86,9 @@ const Profile = () => {
         <TabPanel value={value} index={4}>
           <FeaturedInfo />
           <Chart data={sdata} title="Season Cost" grid dataKey="cost" />
+        </TabPanel>
+        <TabPanel value={value} index={5}>
+          <UserPrefer />
         </TabPanel>
       </Box>
       <UserInfo />
