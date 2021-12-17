@@ -76,8 +76,8 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>LOGO</Logo>
-        <Desc>Lorem ipsum dolor sit amet, con Lorem</Desc>
+        <Logo>SHOES' CABINET</Logo>
+        <Desc>Group HomeWork For 2021 Introduce to DataBase</Desc>
         <SocialContainer>
           <SocialIcon>
             <Facebook />
@@ -94,31 +94,28 @@ const Footer = () => {
         </SocialContainer>
       </Left>
       <Center>
-        <Title>Useful Links</Title>
+        <Title>Group Members</Title>
         <List>
-          <ListItem>item1</ListItem>
-          <ListItem>item2</ListItem>
-          <ListItem>item3</ListItem>
-          <ListItem>item4</ListItem>
-          <ListItem>item5</ListItem>
-          <ListItem>item5</ListItem>
-          <ListItem>item5</ListItem>
-          <ListItem>sadas</ListItem>
+          <ListItem>贾耀博</ListItem>
+          <ListItem>董佳蓉</ListItem>
+          <ListItem>周昊男</ListItem>
+          <ListItem>陆静宜</ListItem>
+          <ListItem>林书瑜</ListItem>
         </List>
       </Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
           {" "}
-          <Room /> some address
+          <Room /> <b>Group Number : </b> 2019202265
         </ContactItem>
         <ContactItem>
           {" "}
-          <Phone /> some phone number
+          <Phone /> The full homework is published on Github
         </ContactItem>
         <ContactItem>
           {" "}
-          <Email /> some email
+          <Email /> Any Questions contact ybjia@ruc.edu.cn
         </ContactItem>
       </Right>
     </Container>

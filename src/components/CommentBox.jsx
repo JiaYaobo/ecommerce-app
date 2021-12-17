@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { publicRequest } from "../requestMethods";
 

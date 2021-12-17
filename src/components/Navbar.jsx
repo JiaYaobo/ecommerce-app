@@ -171,7 +171,7 @@ const Navbar = ({ menuOpen, setMenuOpen }) => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>LOGO.</Logo>
+          <Logo>SHOES' CABINET</Logo>
         </Center>
         <Right>{RightElemnts}</Right>
       </Wrapper>

@@ -25,18 +25,18 @@ export const sliderItems = [
 export const categories = [
   {
     id: 1,
-    img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "SHIRT STYLE!",
+    img: "https://en.xtep.com/UserFiles/upload/image/20200421/20200421142820026.png",
+    title: "XTEP",
   },
   {
     id: 2,
-    img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    title: "LOUNGEWEAR LOVE",
+    img: "https://cdn.shopify.com/s/files/1/1282/7435/products/41DA9B460B323705C1830B7BDFED4C81_450x450.jpg?v=1610271076",
+    title: "ANTA",
   },
   {
     id: 3,
-    img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    title: "LIGHT JACKETS",
+    img: "https://images.solecollector.com/complex/images/c_crop,h_1323,w_1990,x_8,y_821/c_fill,dpr_2.0,f_auto,fl_lossy,q_auto,w_680/xnyjqu0i8hgtlylhacax/bodega-new-balance-574-collab-teaser",
+    title: "NEW BALANCE",
   },
 ];
 

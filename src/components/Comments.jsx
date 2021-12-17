@@ -45,7 +45,7 @@ const ReviewsTitle = styled.span`
 `;
 
 const Comments = (props) => {
-  const [totalRating, setTotalRating] = useState(2);
+  const [totalRating, setTotalRating] = useState(0);
   const [fiveRating] = useState(5);
   const [fourRating] = useState(4);
   const [threeRating] = useState(3);
@@ -71,6 +71,7 @@ const Comments = (props) => {
         );
         const data = await res.data;
         setRateData(data);
+        setTotalRating(data.total);
       } catch (err) {
         console.log(err);
       }
@@ -81,26 +82,26 @@ const Comments = (props) => {
     <CommentContainer>
       <OverallReviews>
         <OverallTitle>Customer Reviews</OverallTitle>
-        <Rating name="read-only" value={rateData.total} />
-        <RatingDetail>{rateData?.total.toFixed(1)} out of 5</RatingDetail>
+        <Rating name="read-only" value={Math.round(totalRating)} readOnly />
+        <RatingDetail>{Math.round(rateData?.total)} out of 5</RatingDetail>
         <RatingBar>
-          <Rating name="read-only" value={fiveRating} />
+          <Rating name="read-only" value={fiveRating} readOnly />
           <RatingDetail>{rateData?.star5}</RatingDetail>
         </RatingBar>
         <RatingBar>
-          <Rating name="read-only" value={fourRating} />
+          <Rating name="read-only" value={fourRating} readOnly />
           <RatingDetail>{rateData?.star4}</RatingDetail>
         </RatingBar>
         <RatingBar>
-          <Rating name="read-only" value={threeRating} />
+          <Rating name="read-only" value={threeRating} readOnly />
           <RatingDetail>{rateData?.star3}</RatingDetail>
         </RatingBar>
         <RatingBar>
-          <Rating name="read-only" value={twoRating} />
+          <Rating name="read-only" value={twoRating} readOnly />
           <RatingDetail>{rateData?.star2}</RatingDetail>
         </RatingBar>
         <RatingBar>
-          <Rating name="read-only" value={oneRating} />
+          <Rating name="read-only" value={oneRating} readOnly />
           <RatingDetail>{rateData?.star1}</RatingDetail>
         </RatingBar>
       </OverallReviews>
